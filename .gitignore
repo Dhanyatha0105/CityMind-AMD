@@ -1,0 +1,88 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environment
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model files (too large for git)
+models/*.onnx
+models/*.pt
+models/*.pth
+models/*.bin
+models/*.safetensors
+!models/vaip_config.json
+!models/.gitkeep
+
+# Data files
+data/sample_videos/*.mp4
+data/sample_videos/*.avi
+data/building_codes/*.pdf
+!data/sample_videos/.gitkeep
+!data/building_codes/.gitkeep
+
+# Output directories (keep demo_rich and benchmarks for submission)
+output/frames/
+output/depth_maps/
+output/detections/
+output/defects/
+output/digital_twin/
+output/reconstruction/
+output/reports/
+output/demo/
+output/benchmarks/test_video.mp4
+output/benchmarks/test_frames/
+output/benchmarks/frames/
+output/benchmarks/*.ply
+output/benchmarks/full_bench/
+results/
+*.pcd
+
+# Checkpoints
+checkpoints/
+
+# FAISS index
+faiss_index/
+chroma_db/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.local

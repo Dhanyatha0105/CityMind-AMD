@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "citymind"
+version = "1.0.0"
+description = "AI-Powered Infrastructure Digital Twin with Multi-Agent Inspection on AMD Edge AI"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "Dhanyatha"}
+]
+keywords = ["digital-twin", "infrastructure", "inspection", "amd", "edge-ai", "multi-agent"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/Dhanyatha0105/CityMind"
+Repository = "https://github.com/Dhanyatha0105/CityMind"
+
+[tool.setuptools.packages.find]
+include = ["citymind*"]
