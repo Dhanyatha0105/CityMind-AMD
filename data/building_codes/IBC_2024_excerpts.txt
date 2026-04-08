@@ -1,0 +1,75 @@
+International Building Code (IBC) 2024 — Excerpts
+
+CHAPTER 16 — STRUCTURAL DESIGN
+
+1604.3 Serviceability
+  Structural systems and members thereof shall be designed to have adequate
+  stiffness to limit deflections and lateral drift. Deflection limits are
+  specified in Table 1604.3.
+
+Table 1604.3 Deflection Limits:
+  Roof members (live load): L/180
+  Floor members (live load): L/360
+  Exterior walls with brittle finishes: H/240
+  Exterior walls with flexible finishes: H/120
+
+1607.1 Live Loads
+  See ASCE 7 for minimum live load requirements.
+
+CHAPTER 17 — SPECIAL INSPECTIONS AND TESTS
+
+1704.1 General
+  Where special inspections are required by Section 1705, the owner shall
+  employ an approved agency to perform inspections.
+
+1705.3 Concrete Construction
+  Continuous special inspection is required for:
+  - Placement of concrete
+  - Prestressed concrete
+  - Erection of precast concrete
+
+1705.3.1 Sampling fresh concrete and conducting slump/air content tests.
+1705.3.2 Verification of concrete strength test results.
+
+CHAPTER 19 — CONCRETE
+
+1901.2 Plain and Reinforced Concrete
+  Structural concrete shall be designed and constructed in accordance with ACI 318.
+
+1905.1 Durability Requirements
+  Concrete shall be designed for exposure categories as defined in ACI 318 Table 19.3.1.1.
+
+Exposure Class:
+  F0: No freezing/thawing
+  F1: Moderate freezing/thawing  
+  F2: Severe freezing/thawing
+  F3: Severe freezing/thawing with deicing chemicals
+
+  S0: No sulfate exposure
+  S1: Moderate sulfate (150-1500 ppm)
+  S2: Severe sulfate (1500-10000 ppm)
+  S3: Very severe sulfate (>10000 ppm)
+
+  W0: No water contact
+  W1: In contact with water requiring low permeability
+
+  C0: No corrosion protection required
+  C1: Moderate corrosion protection (exposed to moisture)
+  C2: Severe corrosion (deicing chemicals, brackish water, seawater)
+
+CHAPTER 34 — EXISTING STRUCTURES
+
+3401.1 Scope
+  Provisions of this chapter shall control the repair, alteration, change
+  of occupancy, addition, and relocation of existing buildings.
+
+3404.1 Repairs
+  Repairs to damaged elements shall use materials and methods that comply
+  with the applicable requirements for new construction. The repaired
+  structure shall not be less conforming than the existing structure.
+
+3404.3 Substantial Structural Damage
+  If a structure has sustained substantial structural damage, it shall be
+  investigated by a registered design professional to determine if the
+  structure can be repaired to provide the level of structural safety
+  required for a new structure.

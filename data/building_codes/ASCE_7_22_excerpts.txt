@@ -1,0 +1,54 @@
+ASCE 7-22: Minimum Design Loads and Associated Criteria for Buildings
+
+CHAPTER 2 — COMBINATIONS OF LOADS
+
+2.3.1 Basic Load Combinations Using Strength Design
+  1.4D
+  1.2D + 1.6L + 0.5(Lr or S or R)
+  1.2D + 1.6(Lr or S or R) + (L or 0.5W)
+  1.2D + 1.0W + L + 0.5(Lr or S or R)
+  1.2D + 1.0E + L + 0.2S
+  0.9D + 1.0W
+  0.9D + 1.0E
+
+CHAPTER 11 — SEISMIC DESIGN CRITERIA
+
+11.4 Seismic Ground Motion Values
+  Spectral acceleration parameters: SS and S1 from USGS database.
+  Site coefficients Fa and Fv based on site class.
+
+11.6 Seismic Design Category
+  Structures are assigned to Seismic Design Categories A through F based on
+  their Risk Category and the design spectral acceleration parameters.
+
+CHAPTER 12 — SEISMIC DESIGN REQUIREMENTS FOR BUILDING STRUCTURES
+
+12.8 Equivalent Lateral Force Procedure
+  V = Cs × W (seismic base shear)
+  Cs = SDS / (R/Ie) (seismic response coefficient)
+
+12.12.1 Story Drift Limits
+  Risk Category I or II: 0.020hsx
+  Risk Category III: 0.015hsx
+  Risk Category IV: 0.010hsx
+
+CHAPTER 26 — WIND LOADS
+
+26.5 Wind Speed Maps
+  Basic wind speed shall be determined from maps based on Risk Category.
+  Exposure categories: B (urban/suburban), C (open terrain), D (flat/water).
+
+CHAPTER 4 — LIVE LOADS
+
+Table 4.3-1: Minimum Uniformly Distributed Live Loads
+  Assembly areas: 4.8 kN/m² (fixed seats), 4.8 kN/m² (movable seats)
+  Office buildings: 2.4 kN/m²
+  Residential: 1.9 kN/m²
+  Parking garages: 2.4 kN/m²
+  Storage (heavy): 11.97 kN/m²
+
+CHAPTER 15 — STRUCTURAL INTEGRITY
+
+15.2 General Structural Integrity Requirements
+  Structures shall be designed to sustain local damage without disproportionate collapse.
+  Tie force requirements for multi-story buildings.

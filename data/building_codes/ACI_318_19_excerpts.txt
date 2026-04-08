@@ -1,0 +1,55 @@
+ACI 318-19: Building Code Requirements for Structural Concrete
+
+CHAPTER 24 — SERVICEABILITY REQUIREMENTS
+
+Section 24.3 — Crack Control
+
+24.3.2 Distribution of flexural reinforcement in one-way slabs and beams
+  The maximum crack width shall not exceed 0.3mm for interior exposure conditions
+  and 0.2mm for exterior exposure conditions.
+
+24.3.2.1 The spacing of reinforcement closest to a tension face shall not exceed:
+  s = 380(280/fs) - 2.5cc
+  where fs is the calculated stress in reinforcement and cc is the clear cover.
+
+24.3.3 Maximum permissible crack widths:
+  - Interior dry conditions: 0.41mm
+  - Interior humid conditions: 0.30mm
+  - Exterior exposure: 0.25mm
+  - Deicing chemical exposure: 0.18mm
+  - Marine or splash zone: 0.15mm
+
+CHAPTER 20 — STEEL REINFORCEMENT
+
+Section 20.5.1.3 — Minimum Concrete Cover Requirements
+  Concrete cast against and permanently in contact with ground: 75mm
+  Concrete exposed to weather: 50mm for bars ≥20mm, 40mm for bars <20mm
+  Concrete not exposed to weather: 40mm for slabs/walls, 40mm for beams/columns
+
+20.5.1.3.4 Fire protection cover shall not be less than specified in Table 20.5.1.3.4.
+
+CHAPTER 18 — EARTHQUAKE-RESISTANT STRUCTURES
+
+Section 18.6.3 — Flexural Members of Special Moment Frames
+  The positive moment strength at joint face shall not be less than 50% of the negative
+  moment strength at that face.
+
+18.7.5 — Minimum shear strength requirements for beams in seismic zones.
+
+CHAPTER 22 — SECTIONAL STRENGTH
+
+22.5 — One-Way Shear Strength
+  Vc = 0.17λ√f'c × bw × d (simplified method)
+  where λ is the lightweight concrete factor, f'c is compressive strength.
+
+22.5.5.1 Minimum shear reinforcement:
+  Av,min = 0.062√f'c × bw × s / fyt
+  or 0.35 × bw × s / fyt (whichever is greater)
+
+CHAPTER 25 — REINFORCEMENT DETAILS
+
+25.4 — Development Length
+  Development length for deformed bars in tension: ld = (fy × ψt × ψe × ψs × λ) / (1.1 × √f'c) × db
+
+25.7.2 — Splice Requirements
+  Lap splice length shall not be less than 1.0ld or 300mm.
