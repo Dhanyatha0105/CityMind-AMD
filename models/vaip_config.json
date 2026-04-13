@@ -1,0 +1,30 @@
+{
+  "target": "AMD_AIE2P_Nx4_Overlay",
+  "cacheDir": "/tmp/vitisai_ep_cache",
+  "cacheKey": "citymind_v1",
+  "num_of_dpu_runners": 1,
+  "xcompiler_target": "DPUCVDX8G_ISA3_C32B6",
+  "session_options": {
+    "intra_op_num_threads": 4,
+    "execution_mode": "sequential",
+    "graph_optimization_level": "all"
+  },
+  "provider_options": {
+    "config_file": "models/vaip_config.json",
+    "cacheDir": "/tmp/vitisai_ep_cache",
+    "cacheKey": "citymind_v1"
+  },
+  "metadata": {
+    "project": "CityMind",
+    "description": "Vitis AI EP configuration for AMD Ryzen AI NPU inference",
+    "target_hardware": "AMD Ryzen AI 9 HX 370 / Ryzen AI Max+",
+    "npu": "AMD XDNA (Phoenix/Hawk Point)",
+    "supported_models": [
+      "yolov8m_structural_int8.onnx",
+      "yolov8m_defect_int8.onnx", 
+      "depth_anything_v2_small_int8.onnx"
+    ],
+    "quantization": "INT8 (Vitis AI Quantizer)",
+    "runtime": "ONNX Runtime 1.17+ with Vitis AI Execution Provider"
+  }
+}
