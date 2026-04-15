@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CityMind — Infrastructure Digital Twin Platform</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ═════════════════════════════════════════════════════════════
+   CITYMIND — PRODUCTION DIGITAL TWIN PLATFORM
+   Inspired by Cesium, Bentley iTwin, OpenSpace, DroneDeploy
+   ═════════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-0:#05070a;--bg-1:#0a0e15;--bg-2:#0f141e;--bg-3:#151c28;--bg-4:#1b2433;
+  --border-1:#1a2333;--border-2:#243044;--border-active:#3b82f6;
+  --text-0:#f0f4f8;--text-1:#c9d1d9;--text-2:#8b949e;--text-3:#484f58;
+  --blue:#3b82f6;--blue-dim:#1e3a6e;--blue-glow:rgba(59,130,246,.25);
+  --red:#ef4444;--red-dim:#7f1d1d;--red-glow:rgba(239,68,68,.2);
+  --orange:#f97316;--yellow:#eab308;--green:#22c55e;--purple:#8b5cf6;--cyan:#06b6d4;
+  --amd:#ed1c24;
+  --r:10px;--r-sm:6px;--r-lg:14px;
+  --font:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono','SF Mono','Fira Code',monospace;
+}
+html{font-size:13px}
+body{font-family:var(--font);background:var(--bg-0);color:var(--text-1);
+  overflow:hidden;height:100vh;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#1e2d3d;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#2a3d55}
+button{font-family:var(--font);cursor:pointer}
+
+/* ─── APP SHELL ─── */
+.app{display:grid;grid-template-rows:48px 1fr 26px;height:100vh;overflow:hidden}
+
+/* ─── HEADER ─── */
+.header{display:flex;align-items:center;gap:0;background:var(--bg-1);border-bottom:1px solid var(--border-1);
+  padding:0 16px;z-index:100;user-select:none}
+.logo{display:flex;align-items:center;gap:10px;margin-right:28px;flex-shrink:0}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--amd),#c41922);
+  border-radius:7px;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:9px;color:#fff;letter-spacing:.5px;
+  box-shadow:0 0 12px rgba(237,28,36,.3)}
+.logo-text{font-size:15px;font-weight:700;letter-spacing:-.4px;color:var(--text-0)}
+.logo-text span{color:var(--text-2);font-weight:400;font-size:11.5px;margin-left:6px}
+
+.nav{display:flex;gap:1px;flex:1;height:100%}
+.nav-btn{background:none;border:none;color:var(--text-2);font-size:11px;font-weight:500;
+  padding:0 14px;height:100%;display:flex;align-items:center;gap:5px;
+  border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.nav-btn:hover{color:var(--text-1);background:rgba(255,255,255,.02)}
+.nav-btn.active{color:var(--text-0);border-bottom-color:var(--blue);background:rgba(59,130,246,.04)}
+.nav-btn .badge{background:var(--red);color:#fff;font-size:8px;font-weight:700;
+  padding:1px 4px;border-radius:6px;min-width:14px;text-align:center}
+
+.header-right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}
+.chip{display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;
+  font-size:9.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
+.chip-live{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.chip-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s ease-in-out infinite}
+.chip-amd{background:rgba(237,28,36,.08);color:var(--amd);border:1px solid rgba(237,28,36,.15)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ─── WORKSPACE ─── */
+.workspace{overflow:hidden;position:relative}
+.panel{display:none;width:100%;height:100%;overflow:hidden}
+.panel.active{display:grid}
+
+/* ─── STATUSBAR ─── */
+.statusbar{display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg-1);border-top:1px solid var(--border-1);padding:0 16px;
+  font-size:9.5px;color:var(--text-3);font-family:var(--mono);user-select:none}
+.sb-l,.sb-r{display:flex;align-items:center;gap:14px}
+.sb-sep{width:1px;height:10px;background:var(--border-1)}
+
+/* ─── CARD ─── */
+.card{background:var(--bg-2);border:1px solid var(--border-1);border-radius:var(--r);padding:14px;transition:border-color .2s}
+.card:hover{border-color:var(--border-2)}
+.card-t{font-size:10px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.6px;display:flex;align-items:center;gap:5px;margin-bottom:10px}
+.card-v{font-size:28px;font-weight:800;letter-spacing:-1px;line-height:1}
+.card-s{font-size:10px;color:var(--text-3);margin-top:3px}
+
+/* ─────────────────────────────────────────────────────────
+   OVERVIEW / COMMAND CENTER
+   ───────────────────────────────────────────────────────── */
+.p-overview{grid-template-rows:auto 1fr;gap:0}
+.ov-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:14px 16px 0}
+.ov-body{display:grid;grid-template-columns:1fr 320px;gap:10px;padding:10px 16px 14px;overflow:hidden}
+.ov-main{display:flex;flex-direction:column;gap:10px;overflow:hidden;min-height:0}
+.ov-side{display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0}
+
+/* Gauge */
+.gauge-w{text-align:center;padding:6px 0}
+.gauge{position:relative;width:120px;height:120px;margin:0 auto}
+.gauge svg{width:100%;height:100%;transform:rotate(-90deg)}
+.gauge-bg{fill:none;stroke:var(--bg-3);stroke-width:9}
+.gauge-fill{fill:none;stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.gauge-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gauge-n{font-size:30px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.gauge-g{font-size:12px;font-weight:700;margin-top:1px}
+.gauge-l{font-size:8px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+
+/* Zone bars */
+.zr{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:var(--r-sm);transition:background .15s}
+.zr:hover{background:rgba(255,255,255,.02)}
+.zr-n{width:90px;font-size:10px;font-weight:500;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zr-b{flex:1;height:4px;border-radius:2px;background:var(--bg-3);overflow:hidden}
+.zr-f{height:100%;border-radius:2px;transition:width 1s ease}
+.zr-v{width:28px;text-align:right;font-family:var(--mono);font-size:10px;font-weight:600}
+.zr-c{width:40px;text-align:right;font-size:9px;color:var(--text-3)}
+
+/* 3D viewport */
+.vp-wrap{flex:1;position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--border-1);background:var(--bg-0);min-height:0}
+.vp-wrap canvas{width:100%;height:100%;display:block}
+.vp-hud{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:3px;z-index:10}
+.vp-hi{background:rgba(5,7,10,.8);backdrop-filter:blur(10px);padding:2px 7px;border-radius:3px;
+  font-family:var(--mono);font-size:9px;color:var(--text-2);border:1px solid rgba(255,255,255,.04);white-space:nowrap}
+.vp-bar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:2px;
+  background:rgba(5,7,10,.75);backdrop-filter:blur(12px);border-radius:6px;padding:3px;
+  border:1px solid rgba(255,255,255,.05);z-index:10}
+.vp-bar button{background:none;border:none;color:var(--text-2);padding:4px 10px;border-radius:4px;
+  font-size:9.5px;font-weight:500;font-family:var(--font);transition:all .12s}
+.vp-bar button:hover{background:rgba(255,255,255,.05);color:var(--text-1)}
+.vp-bar button.active{background:var(--blue);color:#fff}
+.vp-legend{position:absolute;top:8px;right:8px;background:rgba(5,7,10,.8);backdrop-filter:blur(10px);
+  border-radius:5px;padding:6px 8px;border:1px solid rgba(255,255,255,.04);z-index:10}
+.vp-li{display:flex;align-items:center;gap:5px;font-size:9px;color:var(--text-2);padding:.5px 0}
+.vp-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* Chart boxes */
+.ch{position:relative}
+.ch canvas{width:100%!important;height:100%!important}
+
+/* ─────────────────────────────────────────────────────────
+   INSPECTION VIEWER
+   ───────────────────────────────────────────────────────── */
+.p-inspect{grid-template-columns:1fr 360px;grid-template-rows:1fr;gap:0}
+.iv-main{position:relative;background:var(--bg-0);overflow:hidden;display:flex;flex-direction:column;border-right:1px solid var(--border-1)}
+.iv-img{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:0}
+.iv-img img{max-width:100%;max-height:100%;object-fit:contain;border-radius:3px;transition:opacity .3s}
+.iv-ov{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center}
+.iv-ov img{max-width:100%;max-height:100%;object-fit:contain}
+.iv-tl{height:72px;background:var(--bg-1);border-top:1px solid var(--border-1);padding:6px 14px;
+  display:flex;flex-direction:column;gap:3px;flex-shrink:0}
+.tl-strip{display:flex;gap:2px;overflow-x:auto;flex:1;align-items:center;padding:1px 0}
+.tl-th{width:48px;height:32px;border-radius:3px;object-fit:cover;border:2px solid transparent;
+  cursor:pointer;transition:all .12s;flex-shrink:0;opacity:.5}
+.tl-th:hover{opacity:.85;border-color:var(--border-2)}
+.tl-th.active{border-color:var(--blue);opacity:1;box-shadow:0 0 6px var(--blue-glow)}
+.tl-info{display:flex;align-items:center;justify-content:space-between;font-size:9.5px;color:var(--text-3)}
+.iv-side{display:flex;flex-direction:column;overflow-y:auto;background:var(--bg-1)}
+.iv-sec{padding:12px 14px;border-bottom:1px solid var(--border-1)}
+.iv-sec-t{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text-3);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.iv-tog{display:flex;gap:1px;background:var(--bg-2);border-radius:var(--r-sm);padding:2px;width:fit-content}
+.iv-tog button{background:none;border:none;color:var(--text-3);font-size:9.5px;padding:3px 8px;
+  border-radius:3px;font-weight:500;transition:all .12s}
+.iv-tog button.active{background:var(--bg-4);color:var(--text-0)}
+
+/* Defect mini-cards */
+.df-card{padding:8px 10px;border-radius:var(--r-sm);border:1px solid var(--border-1);background:var(--bg-2);
+  margin-bottom:4px;cursor:pointer;transition:all .12s}
+.df-card:hover{border-color:var(--border-2);background:var(--bg-3)}
+.df-card.active{border-color:var(--blue);background:rgba(59,130,246,.04)}
+.df-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.df-id{font-family:var(--mono);font-size:10px;color:var(--blue);font-weight:600}
+.df-sv{font-family:var(--mono);font-size:10px;font-weight:700}
+.df-body{font-size:10px;color:var(--text-2)}
+.df-tags{display:flex;gap:4px;margin-top:3px;flex-wrap:wrap}
+.dtag{font-size:8px;padding:1px 5px;border-radius:2px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.dtag-critical{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.15)}
+.dtag-high{background:rgba(249,115,22,.12);color:var(--orange);border:1px solid rgba(249,115,22,.15)}
+.dtag-medium{background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.15)}
+.dtag-low{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.15)}
+
+/* BBox overlays on image */
+.bbox{position:absolute;border:2px solid;border-radius:2px;pointer-events:none;transition:all .3s}
+.bbox-lbl{position:absolute;top:-16px;left:0;font-size:7.5px;font-weight:700;padding:1px 4px;
+  border-radius:2px;white-space:nowrap;font-family:var(--mono);letter-spacing:.2px}
+
+/* ─────────────────────────────────────────────────────────
+   DEFECT REGISTRY TABLE
+   ───────────────────────────────────────────────────────── */
+.p-deftbl{grid-template-rows:auto 1fr;gap:0}
+.dt-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg-1);border-bottom:1px solid var(--border-1)}
+.dt-body{overflow:auto;padding:0}
+.dt{width:100%;border-collapse:separate;border-spacing:0}
+.dt th{font-size:9.5px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.6px;
+  padding:8px 12px;text-align:left;border-bottom:1px solid var(--border-1);background:var(--bg-1);position:sticky;top:0;z-index:5}
+.dt td{padding:7px 12px;border-bottom:1px solid rgba(26,35,51,.4);font-size:10.5px;vertical-align:middle;transition:background .12s}
+.dt tr:hover td{background:rgba(255,255,255,.012)}
+.sv-bar{width:44px;height:3px;border-radius:2px;background:var(--bg-3);display:inline-block;vertical-align:middle;overflow:hidden}
+.sv-fill{height:100%;border-radius:2px}
+
+/* ─────────────────────────────────────────────────────────
+   AI AGENTS
+   ───────────────────────────────────────────────────────── */
+.p-agents{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;padding:14px;overflow:auto}
+.ag-card{border-left:3px solid var(--blue)}
+.ag-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s ease-in-out infinite}
+.ag-model{font-family:var(--mono);font-size:8.5px;color:var(--text-3);padding:2px 5px;
+  background:var(--bg-1);border-radius:2px;display:inline-block;margin:4px 0 8px}
+.ag-finding{padding:6px 8px;background:var(--bg-1);border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.02);
+  font-size:10px;line-height:1.5;margin-bottom:3px}
+.code-ref{font-family:var(--mono);font-size:9px;color:var(--blue);background:rgba(59,130,246,.06);padding:1px 4px;border-radius:2px}
+
+/* ─────────────────────────────────────────────────────────
+   PIPELINE
+   ───────────────────────────────────────────────────────── */
+.p-pipe{grid-template-rows:auto auto 1fr;gap:10px;padding:14px;overflow:auto}
+.pf{display:flex;align-items:stretch;gap:2px;overflow-x:auto}
+.pf-step{flex:1;min-width:110px;padding:10px;border-radius:var(--r-sm);background:var(--bg-2);
+  border:1px solid var(--border-1);text-align:center;transition:all .3s}
+.pf-step.done{border-color:rgba(34,197,94,.2);background:rgba(34,197,94,.02)}
+.pf-icon{font-size:18px;margin-bottom:3px}
+.pf-name{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:1px}
+.pf-time{font-family:var(--mono);font-size:10px;color:var(--blue);font-weight:600}
+.pf-hw{font-size:7.5px;color:var(--text-3);margin-top:2px}
+.pf-arr{display:flex;align-items:center;color:var(--text-3);font-size:11px;flex-shrink:0}
+.ps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ─────────────────────────────────────────────────────────
+   UPLOAD
+   ───────────────────────────────────────────────────────── */
+.p-upload{place-items:center;padding:40px}
+.up-card{max-width:520px;width:100%;text-align:center}
+.up-drop{border:2px dashed var(--border-2);border-radius:var(--r-lg);padding:40px 28px;cursor:pointer;transition:all .2s;margin-bottom:14px}
+.up-drop:hover{border-color:var(--blue);background:rgba(59,130,246,.02)}
+.up-icon{font-size:38px;margin-bottom:8px;opacity:.5}
+.up-text{font-size:13px;font-weight:600;margin-bottom:2px}
+.up-sub{font-size:10px;color:var(--text-3)}
+.demo-btn{background:var(--blue);color:#fff;border:none;padding:9px 24px;border-radius:var(--r);
+  font-size:11px;font-weight:600;transition:all .15s;box-shadow:0 2px 10px var(--blue-glow)}
+.demo-btn:hover{background:#2563eb;box-shadow:0 4px 18px var(--blue-glow)}
+.prog-log{max-height:280px;overflow-y:auto;text-align:left;margin-top:14px;background:var(--bg-1);
+  border-radius:var(--r);padding:10px;border:1px solid var(--border-1);display:none}
+.prog-ln{padding:2px 0;font-size:10px;font-family:var(--mono);color:var(--text-2);animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+
+/* Toast */
+.toasts{position:fixed;top:56px;right:14px;z-index:200;display:flex;flex-direction:column;gap:5px}
+.toast{padding:8px 12px;border-radius:var(--r-sm);background:var(--bg-3);border:1px solid var(--border-2);
+  font-size:10.5px;display:flex;align-items:center;gap:6px;animation:slideIn .2s ease;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+@media(max-width:1100px){
+  .p-inspect{grid-template-columns:1fr 260px}
+  .ov-kpi{grid-template-columns:repeat(3,1fr)}
+  .ov-body{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-mark">CM</div>
+      <div class="logo-text">CityMind<span>Infrastructure Digital Twin</span></div>
+    </div>
+    <nav class="nav" id="nav">
+      <button class="nav-btn active" data-p="overview">◉ Command Center</button>
+      <button class="nav-btn" data-p="inspect">◎ Inspection <span class="badge" id="navBadge">23</span></button>
+      <button class="nav-btn" data-p="twin3d">⬡ 3D Twin</button>
+      <button class="nav-btn" data-p="deftbl">⚠ Defects</button>
+      <button class="nav-btn" data-p="agents">◈ AI Agents</button>
+      <button class="nav-btn" data-p="pipe">⚙ Pipeline</button>
+      <button class="nav-btn" data-p="upload">↑ New Scan</button>
+    </nav>
+    <div class="header-right">
+      <div class="chip chip-live">Online</div>
+      <div class="chip chip-amd">⬡ AMD Ryzen AI NPU</div>
+    </div>
+  </header>
+
+  <!-- ═══ WORKSPACE ═══ -->
+  <div class="workspace">
+
+    <!-- OVERVIEW -->
+    <div class="panel p-overview active" id="panel-overview">
+      <div class="ov-kpi" id="kpiRow"></div>
+      <div class="ov-body">
+        <div class="ov-main">
+          <div class="vp-wrap" id="cityVP"></div>
+        </div>
+        <div class="ov-side">
+          <div class="card gauge-w" id="gaugeCard"></div>
+          <div class="card"><div class="card-t">Zone Health</div><div id="zoneMap"></div></div>
+          <div class="card"><div class="card-t">Defect Distribution</div><div class="ch" style="height:160px"><canvas id="chDonut"></canvas></div></div>
+          <div class="card"><div class="card-t">Health Trend</div><div class="ch" style="height:140px"><canvas id="chTrend"></canvas></div></div>
+          <div class="card"><div class="card-t">Agent Feed</div><div id="agentFeed"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSPECTION -->
+    <div class="panel p-inspect" id="panel-inspect">
+      <div class="iv-main">
+        <div class="iv-img" id="ivImgWrap">
+          <img id="ivImg" alt="Drone frame"/>
+          <div class="iv-ov" id="ivOv" style="display:none"><img id="ivOvImg" alt="Overlay"/></div>
+          <div id="bboxC"></div>
+        </div>
+        <div class="iv-tl">
+          <div class="tl-info"><span id="tlLabel">Frame 1 / 35</span><span id="tlInfo">DJI Mavic 3 · 4K</span></div>
+          <div class="tl-strip" id="tlStrip"></div>
+        </div>
+      </div>
+      <div class="iv-side">
+        <div class="iv-sec">
+          <div class="iv-sec-t">◎ View Mode</div>
+          <div class="iv-tog" id="viewTog">
+            <button class="active" data-v="original">Original</button>
+            <button data-v="defects">Defects</button>
+            <button data-v="split">Compare</button>
+          </div>
+        </div>
+        <div class="iv-sec">
+          <div class="iv-sec-t">⚠ Detected Defects <span class="dtag dtag-critical" id="fDefCnt">0</span></div>
+          <div id="fDefList"></div>
+        </div>
+        <div class="iv-sec">
+          <div class="iv-sec-t">◉ Frame Info</div>
+          <div id="fMeta" style="font-size:10px;color:var(--text-2);line-height:1.6"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D TWIN -->
+    <div class="panel" id="panel-twin3d" style="position:relative">
+      <div class="vp-wrap" style="border-radius:0;border:none;height:100%">
+        <canvas id="twinC"></canvas>
+        <div class="vp-hud">
+          <div class="vp-hi">◉ CityMind Digital Twin v1.0</div>
+          <div class="vp-hi" id="twPts">Points: 157,432</div>
+          <div class="vp-hi" id="twFps">FPS: —</div>
+          <div class="vp-hi" id="twMode">Mode: All Layers</div>
+        </div>
+        <div class="vp-bar">
+          <button class="active" onclick="setTwView('all')">All</button>
+          <button onclick="setTwView('defects')">Defects</button>
+          <button onclick="setTwView('structure')">Structure</button>
+          <button onclick="setTwView('heatmap')">Heatmap</button>
+          <button onclick="setTwView('wireframe')">Wire</button>
+          <button onclick="setTwView('pointcloud')">Points</button>
+        </div>
+        <div class="vp-legend">
+          <div class="vp-li"><div class="vp-dot" style="background:var(--red)"></div>Critical</div>
+          <div class="vp-li"><div class="vp-dot" style="background:var(--orange)"></div>High</div>
+          <div class="vp-li"><div class="vp-dot" style="background:var(--yellow)"></div>Medium</div>
+          <div class="vp-li"><div class="vp-dot" style="background:var(--green)"></div>Good</div>
+          <div class="vp-li"><div class="vp-dot" style="background:var(--blue)"></div>Structural</div>
+        </div>
+      </div>
+      <div style="position:absolute;bottom:10px;right:10px;z-index:10">
+        <div class="card" style="padding:8px 10px;min-width:150px" id="twStats"></div>
+      </div>
+    </div>
+
+    <!-- DEFECT TABLE -->
+    <div class="panel p-deftbl" id="panel-deftbl">
+      <div class="dt-bar">
+        <span style="font-size:12px;font-weight:700">Defect Registry</span>
+        <span class="dtag dtag-critical" id="regTot">23</span>
+        <div style="flex:1"></div>
+        <div class="iv-tog" id="defFilt">
+          <button class="active" data-f="all">All</button>
+          <button data-f="critical">Critical</button>
+          <button data-f="high">High</button>
+          <button data-f="medium">Medium</button>
+          <button data-f="low">Low</button>
+        </div>
+      </div>
+      <div class="dt-body">
+        <table class="dt"><thead><tr>
+          <th>ID</th><th>Type</th><th>Subtype</th><th>Severity</th>
+          <th>Confidence</th><th>Zone</th><th>Priority</th><th>Location</th><th>Method</th>
+        </tr></thead><tbody id="dtBody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- AGENTS -->
+    <div class="panel p-agents" id="panel-agents"></div>
+
+    <!-- PIPELINE -->
+    <div class="panel p-pipe" id="panel-pipe">
+      <div class="card"><div class="card-t" style="margin-bottom:10px">Pipeline Flow</div><div class="pf" id="pipeFlow"></div></div>
+      <div class="ps" id="pipeStats"></div>
+      <div class="pc">
+        <div class="card"><div class="card-t" style="margin-bottom:6px">Layer Performance</div><div class="ch" style="height:200px"><canvas id="chPipeP"></canvas></div></div>
+        <div class="card"><div class="card-t" style="margin-bottom:6px">NPU vs CPU</div><div class="ch" style="height:200px"><canvas id="chNPU"></canvas></div></div>
+      </div>
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="panel p-upload" id="panel-upload">
+      <div class="up-card card">
+        <div class="up-drop"><div class="up-icon">📹</div><div class="up-text">Drop drone video here</div><div class="up-sub">MP4, AVI, MOV — any resolution</div></div>
+        <button class="demo-btn" onclick="runDemo()">▶ Run Demo Scan — I-405 Bridge</button>
+        <div class="prog-log" id="progLog"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STATUSBAR -->
+  <div class="statusbar">
+    <div class="sb-l">
+      <span>CityMind v1.0</span><span class="sb-sep"></span>
+      <span id="sbS">Bridge — I-405, Los Angeles</span><span class="sb-sep"></span>
+      <span id="sbF">35 frames</span>
+    </div>
+    <div class="sb-r">
+      <span id="sbP">Pipeline: 18.67s</span><span class="sb-sep"></span>
+      <span>AMD Ryzen AI 9 HX 370 · XDNA2 · Radeon 890M</span>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+/* ═════════════════════════════════════════════════════════════
+   CITYMIND ENGINE
+   ═════════════════════════════════════════════════════════════ */
+const D={};
+let charts={};
+let cityScene,cityCamera,cityRenderer,cityControls,cityAnim;
+let twinScene,twinCamera,twinRenderer,twinControls,twinAnim;
+let curFrame=0,viewMode='original',overlayFiles=[],frameFiles=[];
+
+// ── Nav ──
+document.getElementById('nav').addEventListener('click',e=>{
+  const b=e.target.closest('.nav-btn');if(!b)return;
+  const id=b.dataset.p;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b2=>b2.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  b.classList.add('active');
+  if(id==='twin3d')initTwin();
+  if(id==='overview'&&!cityAnim)initCity();
+  if(id==='inspect')loadFrame(curFrame);
+});
+
+// ── Boot ──
+async function boot(){
+  try{
+    const eps=['twin','defects','agents','performance','scan-history','pipeline','structural-elements'];
+    const res=await Promise.all(eps.map(e=>fetch('/api/'+e).then(r=>r.ok?r.json():null).catch(()=>null)));
+    D.twin=res[0];D.defects=res[1];D.agents=res[2];D.perf=res[3];D.hist=res[4];D.pipe=res[5];D.struct=res[6];
+    overlayFiles=await fetch('/api/overlays').then(r=>r.json()).catch(()=>[]);
+  }catch(e){console.warn('API fallback');}
+  if(!D.twin)genDemo();
+  for(let i=1;i<=35;i++)frameFiles.push('frame_'+String(i).padStart(4,'0')+'.jpg');
+  render();
+  toast('🏗️','CityMind loaded — '+D.twin.structure_type);
+}
+
+function genDemo(){
+  const defs=[];
+  const types=['crack','spalling','corrosion','exposed_rebar','efflorescence','settlement'];
+  const subs={crack:['longitudinal','transverse','alligator','hairline'],spalling:['surface','deep','delamination'],
+    corrosion:['surface_rust','section_loss','staining'],exposed_rebar:['partial','full_exposure'],
+    efflorescence:['white_deposit','stalactite'],settlement:['differential','uniform']};
+  const zones=['deck','pier_1','pier_2','abutment_north','abutment_south','bearing'];
+  const locs=['East face of Pier 1, 2.3m from base','Deck underside, midspan','North abutment bearing pad',
+    'Pier 2 column, west face 4.1m','Deck surface, lane 2 near joint','South abutment wingwall'];
+  for(let i=0;i<23;i++){
+    const t=types[~~(Math.random()*types.length)];const s=+(2+Math.random()*8).toFixed(1);
+    defs.push({id:'DEF-'+String(i+1).padStart(3,'0'),defect_type:t,
+      subtype:subs[t][~~(Math.random()*subs[t].length)],severity:s,
+      confidence:+(0.72+Math.random()*.26).toFixed(2),
+      bbox:[~~(Math.random()*300)+50,~~(Math.random()*200)+50,~~(Math.random()*400)+300,~~(Math.random()*300)+250],
+      zone:zones[~~(Math.random()*zones.length)],location_description:locs[~~(Math.random()*locs.length)],
+      frame_idx:~~(Math.random()*35),detection_method:['yolov8','rt-detr','heuristic'][~~(Math.random()*3)],
+      priority:s>=8?'critical':s>=6?'high':s>=4?'medium':'low'});
+  }
+  const cr=defs.filter(d=>d.priority==='critical'),hi=defs.filter(d=>d.priority==='high'),
+    md=defs.filter(d=>d.priority==='medium'),lo=defs.filter(d=>d.priority==='low');
+  const hs=Math.max(15,100-cr.length*6-hi.length*3-md.length*1.5-lo.length*.5);
+  D.twin={twin_id:'TWIN-BRIDGE-20260228',structure_type:'Reinforced Concrete Bridge',
+    health_index:{score:+hs.toFixed(1),grade:hs>=90?'A':hs>=80?'B':hs>=70?'C':hs>=60?'D':'F',
+      status:hs>=90?'Excellent':hs>=75?'Good':hs>=60?'Fair':hs>=40?'Poor':'Critical',
+      defect_count:23,critical_count:cr.length,high_count:hi.length,medium_count:md.length,low_count:lo.length},
+    zone_analysis:{deck:{health:52,defects:8},pier_1:{health:61,defects:5},pier_2:{health:68,defects:3},
+      abutment_north:{health:78,defects:3},abutment_south:{health:82,defects:2},bearing:{health:55,defects:2}},
+    point_cloud_stats:{total_points:157432,labeled_points:89621,defect_points:12847}};
+  D.defects=defs;
+  D.agents={inspector:{agent:'Inspector Agent',model:'AMD GAIA (Ryzen AI NPU)',
+      summary:'Identified 23 defects: '+cr.length+' critical, '+hi.length+' high, '+md.length+' medium, '+lo.length+' low.',
+      classified_defects:defs.slice(0,10).map(d=>({id:d.id,type:d.defect_type,severity_score:d.severity,
+        zone:d.zone,classification:d.priority,
+        recommendation:d.priority==='critical'?'Immediate repair required.':d.priority==='high'?'Repair within 30 days.':'Monitor routinely.'}))},
+    compliance:{agent:'Compliance Agent',model:'AMD GAIA + RAG (FAISS + ACI/ASCE/IBC)',
+      overall_compliance:'Non-Compliant',total_violations:cr.length+hi.length,
+      violations:[{code:'ACI 318-19 §18.12.3',description:'Max crack width exceeded (0.4mm limit)',severity:'critical'},
+        {code:'ASCE 7-22 §2.3.1',description:'Section loss >10% from corrosion',severity:'critical'},
+        {code:'IBC 2024 §1704.6',description:'Spalling depth exceeds cover thickness',severity:'high'}]},
+    safety:{agent:'Safety Agent',model:'AMD GAIA (Risk Assessment)',
+      risk_score:Math.min(100,25+cr.length*15+hi.length*5),risk_level:'High',
+      risk_factors:[{factor:'Critical structural defects',weight:.35,score:85},
+        {factor:'Load-bearing compromise',weight:.25,score:72},{factor:'Environmental exposure',weight:.15,score:60},
+        {factor:'Age deterioration',weight:.15,score:55},{factor:'Maintenance history',weight:.1,score:40}],
+      immediate_actions:['Close affected lane on bridge deck','Install temporary shoring under Pier 1','Schedule emergency concrete repair']},
+    report:'# CityMind Inspection Report\n\n**Structure:** Reinforced Concrete Bridge — I-405, Los Angeles\n**Date:** Feb 28, 2026\n**Inspector:** CityMind AI v1.0 (AMD Ryzen AI NPU)\n\n---\n\n## Summary\n23 structural defects across 6 zones.\nHealth Index: '+hs.toFixed(1)+'/100 (Grade '+(hs>=90?'A':hs>=80?'B':hs>=70?'C':hs>=60?'D':'F')+')\n\n## Immediate Actions\n1. Close affected lane\n2. Install temp shoring\n3. Emergency repair\n\n---\n*Generated by CityMind AI — AMD Ryzen AI*'};
+  D.perf={layer1_ingestion_s:1.23,layer2_perception_s:4.56,layer3_reconstruction_s:8.91,
+    layer4_twin_s:0.34,layer5_agents_s:2.78,layer6_report_s:0.85,total_pipeline_s:18.67,
+    npu_speedup:{perception_cpu_s:4.56,perception_npu_s:1.3,speedup:'3.5x'},memory_peak_mb:2847,gpu_utilization_percent:78};
+  D.hist=[{date:'2025-10',score:75.2,defects:8},{date:'2025-11',score:71.5,defects:11},
+    {date:'2025-12',score:66.8,defects:14},{date:'2026-01',score:59.3,defects:17},
+    {date:'2026-02',score:52.1,defects:20},{date:'2026-02-28',score:hs,defects:23}];
+  D.pipe={pipeline_id:'CITY-DEMO',structure_type:'Reinforced Concrete Bridge',
+    location:'Interstate 405, Los Angeles, CA',gps:{lat:34.0522,lon:-118.2437},
+    video_source:'DJI Mavic 3 Enterprise (4K, 30fps)',video_duration_s:127.5,
+    frames_extracted:42,frames_after_filter:35,processing_time_s:18.7,
+    amd_hardware:{cpu:'AMD Ryzen AI 9 HX 370',npu:'AMD XDNA2 (50 TOPS)',igpu:'AMD Radeon 890M',ram:'64GB LPDDR5x'}};
+}
+
+// ── Render ──
+function render(){
+  renderKPI();renderGauge();renderZones();renderDefTbl();renderAgents();renderPipe();renderFeed();renderCharts();
+  initCity();buildTimeline();loadFrame(0);
+  document.getElementById('sbS').textContent=D.pipe?.location||'Bridge I-405';
+  document.getElementById('sbF').textContent=(D.pipe?.frames_after_filter||35)+' frames';
+  document.getElementById('sbP').textContent='Pipeline: '+(D.perf?.total_pipeline_s||18.67)+'s';
+  document.getElementById('navBadge').textContent=D.twin?.health_index?.defect_count||23;
+}
+
+function renderKPI(){
+  const h=D.twin.health_index,p=D.perf;
+  document.getElementById('kpiRow').innerHTML=`
+    <div class="card"><div class="card-t">Health Index</div><div class="card-v" style="color:${gc(h.grade)}">${h.score}</div>
+      <div class="card-s">Grade ${h.grade} — ${h.status}</div></div>
+    <div class="card"><div class="card-t">Defects</div><div class="card-v">${h.defect_count}</div>
+      <div class="card-s"><span style="color:var(--red)">${h.critical_count}C</span> <span style="color:var(--orange)">${h.high_count}H</span> <span style="color:var(--yellow)">${h.medium_count}M</span> <span style="color:var(--green)">${h.low_count}L</span></div></div>
+    <div class="card"><div class="card-t">Risk</div><div class="card-v" style="color:var(--red)">${D.agents?.safety?.risk_score||0}</div>
+      <div class="card-s">${D.agents?.safety?.risk_level||''} — Action Required</div></div>
+    <div class="card"><div class="card-t">Pipeline</div><div class="card-v" style="color:var(--blue)">${p.total_pipeline_s}s</div>
+      <div class="card-s">NPU ${p.npu_speedup?.speedup||'3.5x'} speedup</div></div>
+    <div class="card"><div class="card-t">Frames</div><div class="card-v">${D.pipe?.frames_after_filter||35}</div>
+      <div class="card-s">${D.pipe?.frames_extracted||42} extracted</div></div>`;
+}
+
+function renderGauge(){
+  const h=D.twin.health_index,circ=2*Math.PI*48,off=circ-(h.score/100)*circ,c=gc(h.grade);
+  document.getElementById('gaugeCard').innerHTML=`
+    <div class="card-t" style="justify-content:center">Structural Health</div>
+    <div class="gauge"><svg viewBox="0 0 120 120"><circle class="gauge-bg" cx="60" cy="60" r="48"/>
+      <circle class="gauge-fill" cx="60" cy="60" r="48" stroke="${c}" stroke-dasharray="${circ}" stroke-dashoffset="${off}"
+        style="filter:drop-shadow(0 0 5px ${c})"/></svg>
+      <div class="gauge-c"><div class="gauge-n" style="color:${c}">${h.score}</div>
+        <div class="gauge-g" style="color:${c}">Grade ${h.grade}</div>
+        <div class="gauge-l">${h.status}</div></div></div>
+    <div style="font-size:9px;color:var(--text-3);margin-top:4px">${h.score<60?'⚠ Immediate assessment required':h.score<75?'🔧 Inspect within 3mo':'✅ Routine monitoring'}</div>`;
+}
+
+function renderZones(){
+  const za=D.twin.zone_analysis;
+  const ic={deck:'🛣',pier_1:'🏛',pier_2:'🏛',abutment_north:'🧱',abutment_south:'🧱',bearing:'⚙'};
+  document.getElementById('zoneMap').innerHTML=Object.entries(za).map(([k,z])=>{
+    const c=hc(z.health);
+    return `<div class="zr"><div class="zr-n">${ic[k]||''} ${k.replace(/_/g,' ')}</div>
+      <div class="zr-b"><div class="zr-f" style="width:${z.health}%;background:${c}"></div></div>
+      <div class="zr-v" style="color:${c}">${z.health}</div><div class="zr-c">${z.defects}d</div></div>`;
+  }).join('');
+}
+
+function renderDefTbl(f='all'){
+  const list=f==='all'?D.defects:D.defects.filter(d=>d.priority===f);
+  document.getElementById('regTot').textContent=list.length;
+  document.getElementById('dtBody').innerHTML=list.map(d=>{
+    const sc=sevC(d.priority);
+    return `<tr><td style="font-family:var(--mono);color:var(--blue);font-weight:600">${d.id}</td>
+      <td style="font-weight:600">${d.defect_type.replace(/_/g,' ')}</td>
+      <td style="color:var(--text-2)">${d.subtype?.replace(/_/g,' ')||'—'}</td>
+      <td><div class="sv-bar"><div class="sv-fill" style="width:${d.severity*10}%;background:${sc}"></div></div>
+        <span style="font-family:var(--mono);color:${sc};margin-left:4px">${d.severity}</span></td>
+      <td style="font-family:var(--mono)">${(d.confidence*100).toFixed(0)}%</td>
+      <td>${d.zone?.replace(/_/g,' ')||'—'}</td>
+      <td><span class="dtag dtag-${d.priority}">${d.priority}</span></td>
+      <td style="color:var(--text-2);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.location_description||'—'}</td>
+      <td style="font-family:var(--mono);font-size:9px;color:var(--text-3)">${d.detection_method||'—'}</td></tr>`;
+  }).join('');
+}
+document.getElementById('defFilt')?.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#defFilt button').forEach(b2=>b2.classList.remove('active'));
+  b.classList.add('active');renderDefTbl(b.dataset.f);
+});
+
+function renderAgents(){
+  const a=D.agents;if(!a)return;
+  const cards=[
+    {name:'Inspector Agent',icon:'🔍',color:'#8b5cf6',model:a.inspector?.model||'AMD GAIA',
+      body:`<p style="font-size:10px;margin-bottom:6px">${a.inspector?.summary||''}</p>
+        ${(a.inspector?.classified_defects||[]).slice(0,5).map(d=>
+          `<div class="ag-finding"><span class="dtag dtag-${d.classification}" style="margin-right:3px">${d.classification}</span>
+          <strong>${d.id}</strong> — ${d.type?.replace(/_/g,' ')} (${d.severity_score})<br>
+          <span style="color:var(--text-3);font-size:9px">${d.recommendation||''}</span></div>`).join('')}`},
+    {name:'Compliance Agent',icon:'📋',color:'#f97316',model:a.compliance?.model||'AMD GAIA + RAG',
+      body:`<p style="font-size:10px;margin-bottom:6px">Status: <strong style="color:var(--red)">${a.compliance?.overall_compliance||''}</strong> · ${a.compliance?.total_violations||0} violations</p>
+        ${(a.compliance?.violations||[]).map(v=>
+          `<div class="ag-finding"><span class="code-ref">${v.code}</span> <span class="dtag dtag-${v.severity}" style="margin-left:3px">${v.severity}</span><br>${v.description}</div>`).join('')}`},
+    {name:'Safety Agent',icon:'🛡',color:'#ef4444',model:a.safety?.model||'AMD GAIA',
+      body:`<div style="margin-bottom:6px"><span style="font-size:22px;font-weight:800;color:var(--red)">${a.safety?.risk_score||0}</span>
+        <span style="color:var(--text-3);font-size:10px">/100 — ${a.safety?.risk_level||''}</span></div>
+        ${(a.safety?.risk_factors||[]).map(f=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">
+          <span style="width:120px;font-size:9px;color:var(--text-3)">${f.factor}</span>
+          <div class="sv-bar" style="flex:1"><div class="sv-fill" style="width:${f.score}%;background:${f.score>=70?'var(--red)':f.score>=50?'var(--orange)':'var(--yellow)'}"></div></div>
+          <span style="font-family:var(--mono);font-size:9px;width:20px;text-align:right">${f.score}</span></div>`).join('')}
+        <div style="margin-top:8px"><div style="font-size:9px;font-weight:600;color:var(--text-2);margin-bottom:3px">Immediate Actions:</div>
+        ${(a.safety?.immediate_actions||[]).map((x,i)=>
+          `<div class="ag-finding"><span style="color:var(--red);font-weight:700">${i+1}.</span> ${x}</div>`).join('')}</div>`},
+    {name:'Report Agent',icon:'📄',color:'#22c55e',model:'AMD GAIA · PDF',
+      body:`<div style="font-size:10px;line-height:1.6;color:var(--text-2);white-space:pre-wrap;
+        max-height:260px;overflow-y:auto;padding:8px;background:var(--bg-1);border-radius:var(--r-sm)">${typeof a.report==='string'?a.report:''}</div>`}
+  ];
+  document.getElementById('panel-agents').innerHTML=cards.map(c=>
+    `<div class="card ag-card" style="border-left-color:${c.color}">
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">
+        <div class="ag-dot"></div><span style="font-size:9px;color:var(--text-3)">Active</span></div>
+      <div class="card-t" style="margin-bottom:3px">${c.icon} ${c.name}</div>
+      <div class="ag-model">${c.model}</div>${c.body}</div>`).join('');
+}
+
+function renderPipe(){
+  const p=D.perf;
+  const steps=[{icon:'📹',name:'Ingestion',time:p.layer1_ingestion_s,hw:'Ryzen CPU'},
+    {icon:'🔍',name:'Perception',time:p.layer2_perception_s,hw:'Ryzen AI NPU'},
+    {icon:'🗺',name:'3D Recon',time:p.layer3_reconstruction_s,hw:'Radeon 890M'},
+    {icon:'🏢',name:'Twin Engine',time:p.layer4_twin_s,hw:'Ryzen CPU'},
+    {icon:'🤖',name:'AI Agents',time:p.layer5_agents_s,hw:'GAIA + NPU'},
+    {icon:'📊',name:'Report',time:p.layer6_report_s,hw:'FPDF2'}];
+  document.getElementById('pipeFlow').innerHTML=steps.map((s,i)=>
+    `<div class="pf-step done"><div class="pf-icon">${s.icon}</div><div class="pf-name">L${i+1}: ${s.name}</div>
+      <div class="pf-time">${s.time}s</div><div class="pf-hw">${s.hw}</div></div>
+    ${i<steps.length-1?'<div class="pf-arr">→</div>':''}`).join('');
+  const hw=D.pipe?.amd_hardware;
+  document.getElementById('pipeStats').innerHTML=`
+    <div class="card"><div class="card-t">Source</div><div style="font-size:12px;font-weight:600">${D.pipe?.video_source||'DJI Mavic 3'}</div>
+      <div class="card-s">${D.pipe?.video_duration_s||0}s · ${D.pipe?.frames_extracted||42} → ${D.pipe?.frames_after_filter||35}</div></div>
+    <div class="card"><div class="card-t">Pipeline</div><div class="card-v" style="color:var(--blue);font-size:22px">${p.total_pipeline_s}s</div>
+      <div class="card-s">NPU ${p.npu_speedup?.speedup} faster</div></div>
+    <div class="card"><div class="card-t">Memory</div><div class="card-v" style="font-size:22px">${(p.memory_peak_mb/1024).toFixed(1)}GB</div>
+      <div class="card-s">GPU: ${p.gpu_utilization_percent}%</div></div>
+    <div class="card"><div class="card-t">AMD Hardware</div><div style="font-size:9px;line-height:1.7;color:var(--text-2)">
+      ${hw?Object.entries(hw).map(([k,v])=>`<div><span style="color:var(--amd);font-weight:600;text-transform:uppercase">${k}</span> ${v}</div>`).join(''):'—'}</div></div>`;
+}
+
+function renderFeed(){
+  const items=[{i:'🔍',t:'Inspector: '+D.twin?.health_index?.defect_count+' defects',s:'0.8s'},
+    {i:'📋',t:'Compliance: '+(D.agents?.compliance?.total_violations||0)+' violations',s:'1.2s'},
+    {i:'🛡',t:'Safety: Risk '+D.agents?.safety?.risk_score+'/100',s:'0.4s'},
+    {i:'📄',t:'Report: PDF generated',s:'0.3s'}];
+  document.getElementById('agentFeed').innerHTML=items.map(it=>
+    `<div style="display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.02)">
+      <span style="font-size:12px">${it.i}</span><span style="flex:1;font-size:10px">${it.t}</span>
+      <span style="font-family:var(--mono);font-size:8px;color:var(--text-3)">${it.s}</span></div>`).join('');
+}
+
+function renderCharts(){
+  Chart.defaults.color='#5a6370';Chart.defaults.borderColor='rgba(26,35,51,.35)';
+  Chart.defaults.font.family="'Inter',system-ui";Chart.defaults.font.size=9;
+
+  const tc={};D.defects.forEach(d=>tc[d.defect_type]=(tc[d.defect_type]||0)+1);
+  const dc={crack:'#ef4444',spalling:'#f97316',corrosion:'#eab308',exposed_rebar:'#8b5cf6',efflorescence:'#06b6d4',settlement:'#ec4899'};
+  charts.donut=new Chart(document.getElementById('chDonut'),{type:'doughnut',
+    data:{labels:Object.keys(tc).map(t=>t.replace(/_/g,' ')),datasets:[{data:Object.values(tc),backgroundColor:Object.keys(tc).map(t=>dc[t]||'#6b7280'),borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{padding:6,usePointStyle:true,pointStyleWidth:5,font:{size:8}}}}}});
+
+  const sh=D.hist||[];
+  charts.trend=new Chart(document.getElementById('chTrend'),{type:'line',
+    data:{labels:sh.map(s=>s.date),datasets:[{label:'Health',data:sh.map(s=>s.score),borderColor:'#3b82f6',
+      backgroundColor:'rgba(59,130,246,.06)',fill:true,tension:.4,pointRadius:2,borderWidth:1.5}]},
+    options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:100,grid:{color:'rgba(26,35,51,.25)'},
+      ticks:{font:{size:8}}},x:{grid:{display:false},ticks:{font:{size:7}}}},plugins:{legend:{display:false}}}});
+
+  const p=D.perf;
+  charts.pipeP=new Chart(document.getElementById('chPipeP'),{type:'bar',
+    data:{labels:['Ingestion','Perception','3D Recon','Twin','Agents','Report'],
+      datasets:[{data:[p.layer1_ingestion_s,p.layer2_perception_s,p.layer3_reconstruction_s,p.layer4_twin_s,p.layer5_agents_s,p.layer6_report_s],
+        backgroundColor:['#6366f1','#ed1c24','#f97316','#eab308','#8b5cf6','#22c55e'],borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:'rgba(26,35,51,.25)'},title:{display:true,text:'s',font:{size:8}}},y:{grid:{display:false}}}}});
+
+  charts.npu=new Chart(document.getElementById('chNPU'),{type:'bar',
+    data:{labels:['Perception','3D Recon','Agents','Total'],
+      datasets:[{label:'CPU',data:[p.npu_speedup?.perception_cpu_s||4.56,12.5,5.2,28.1],backgroundColor:'rgba(107,114,128,.4)',borderRadius:3},
+        {label:'AMD NPU/iGPU',data:[p.npu_speedup?.perception_npu_s||1.3,p.layer3_reconstruction_s,p.layer5_agents_s,p.total_pipeline_s],
+          backgroundColor:'rgba(237,28,36,.55)',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false}},
+      y:{grid:{color:'rgba(26,35,51,.25)'},title:{display:true,text:'s',font:{size:8}}}},
+      plugins:{legend:{labels:{usePointStyle:true,pointStyleWidth:5,font:{size:8}}}}}});
+}
+
+/* ═════════════════════════════════════════════════════════════
+   INSPECTION VIEWER
+   ═════════════════════════════════════════════════════════════ */
+function buildTimeline(){
+  const s=document.getElementById('tlStrip');s.innerHTML='';
+  for(let i=0;i<frameFiles.length;i++){
+    const img=document.createElement('img');img.className='tl-th'+(i===0?' active':'');
+    img.src='/frames/'+frameFiles[i];img.alt='F'+(i+1);img.loading='lazy';
+    img.onclick=()=>loadFrame(i);img.onerror=function(){this.style.background='var(--bg-3)';this.alt='';};
+    s.appendChild(img);
+  }
+}
+
+function loadFrame(idx){
+  curFrame=idx;
+  const img=document.getElementById('ivImg');
+  img.src='/frames/'+frameFiles[idx];
+  img.onerror=function(){this.style.background='var(--bg-3)';};
+  document.querySelectorAll('.tl-th').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.getElementById('tlLabel').textContent='Frame '+(idx+1)+' / '+frameFiles.length;
+  updateView();showFrameDefects(idx);
+  document.getElementById('fMeta').innerHTML=`
+    <div><strong>File:</strong> ${frameFiles[idx]}</div>
+    <div><strong>Index:</strong> ${idx+1} / ${frameFiles.length}</div>
+    <div><strong>Source:</strong> ${D.pipe?.video_source||'DJI Mavic 3'}</div>
+    <div><strong>Resolution:</strong> 3840 × 2160</div>
+    <div><strong>Extraction:</strong> ffmpeg scene detection</div>
+    <div><strong>GPS:</strong> ${D.pipe?.gps?.lat||34.0522}°N, ${Math.abs(D.pipe?.gps?.lon||-118.2437)}°W</div>`;
+  const strip=document.getElementById('tlStrip');
+  strip.children[idx]?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+}
+
+function showFrameDefects(idx){
+  const fd=D.defects.filter(d=>d.frame_idx===idx);
+  document.getElementById('fDefCnt').textContent=fd.length;
+  document.getElementById('fDefList').innerHTML=fd.length===0
+    ?'<div style="font-size:10px;color:var(--text-3);padding:6px">No defects in this frame</div>'
+    :fd.map(d=>`<div class="df-card" data-id="${d.id}">
+        <div class="df-top"><div class="df-id">${d.id}</div><div class="df-sv" style="color:${sevC(d.priority)}">${d.severity}/10</div></div>
+        <div class="df-body">${d.defect_type.replace(/_/g,' ')} — ${d.subtype?.replace(/_/g,' ')||''}</div>
+        <div class="df-tags"><span class="dtag dtag-${d.priority}">${d.priority}</span>
+          <span class="dtag" style="background:rgba(59,130,246,.06);color:var(--blue);border:1px solid rgba(59,130,246,.12)">${d.zone?.replace(/_/g,' ')}</span>
+          <span class="dtag" style="background:var(--bg-1);color:var(--text-3);border:1px solid var(--border-1)">${(d.confidence*100).toFixed(0)}%</span></div></div>`).join('');
+  drawBB(fd);
+}
+
+function drawBB(defs){
+  const c=document.getElementById('bboxC');
+  c.querySelectorAll('.bbox').forEach(m=>m.remove());
+  const img=document.getElementById('ivImg');if(!img.naturalWidth)return;
+  const wrap=document.getElementById('ivImgWrap');
+  const wr=wrap.getBoundingClientRect(),ir=img.getBoundingClientRect();
+  const ox=ir.left-wr.left,oy=ir.top-wr.top,sx=ir.width/img.naturalWidth,sy=ir.height/img.naturalHeight;
+  defs.forEach(d=>{
+    if(!d.bbox)return;const[x1,y1,x2,y2]=d.bbox;
+    const el=document.createElement('div');el.className='bbox';
+    const col=d.priority==='critical'?'var(--red)':d.priority==='high'?'var(--orange)':d.priority==='medium'?'var(--yellow)':'var(--green)';
+    el.style.cssText=`left:${ox+x1*sx}px;top:${oy+y1*sy}px;width:${(x2-x1)*sx}px;height:${(y2-y1)*sy}px;border-color:${col}`;
+    el.innerHTML=`<div class="bbox-lbl" style="background:${col};color:#000">${d.id} ${d.defect_type.replace(/_/g,' ')} ${d.severity}</div>`;
+    c.appendChild(el);
+  });
+}
+
+document.getElementById('viewTog')?.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#viewTog button').forEach(b2=>b2.classList.remove('active'));
+  b.classList.add('active');viewMode=b.dataset.v;updateView();
+});
+
+function updateView(){
+  const ov=document.getElementById('ivOv'),ovi=document.getElementById('ivOvImg'),mi=document.getElementById('ivImg');
+  mi.style.filter='';
+  if(viewMode==='original'){ov.style.display='none';mi.style.opacity='1';}
+  else if(viewMode==='defects'){
+    const fn='frame_'+String(curFrame).padStart(4,'0')+'_defects.png';
+    if(overlayFiles.includes(fn)){ov.style.display='flex';ovi.src='/overlays/'+fn;mi.style.opacity='.65';}
+    else{ov.style.display='none';mi.style.opacity='1';}
+  }else if(viewMode==='split'){ov.style.display='none';mi.style.opacity='1';}
+}
+
+window.addEventListener('resize',()=>{
+  if(document.getElementById('panel-inspect').classList.contains('active')){
+    setTimeout(()=>drawBB(D.defects.filter(d=>d.frame_idx===curFrame)),80);
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('panel-inspect').classList.contains('active'))return;
+  if(e.key==='ArrowRight'&&curFrame<frameFiles.length-1)loadFrame(curFrame+1);
+  if(e.key==='ArrowLeft'&&curFrame>0)loadFrame(curFrame-1);
+});
+document.getElementById('ivImg')?.addEventListener('load',()=>{
+  setTimeout(()=>drawBB(D.defects.filter(d=>d.frame_idx===curFrame)),40);
+});
+
+/* ═════════════════════════════════════════════════════════════
+   3D CITY (Overview)
+   ═════════════════════════════════════════════════════════════ */
+function initCity(){
+  const el=document.getElementById('cityVP');if(!el||el.querySelector('canvas'))return;
+  cityScene=new THREE.Scene();cityScene.fog=new THREE.FogExp2(0x050710,.007);
+  const w=el.clientWidth,h=el.clientHeight;
+  cityCamera=new THREE.PerspectiveCamera(50,w/h,.1,500);cityCamera.position.set(45,35,55);
+  cityRenderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+  cityRenderer.setSize(w,h);cityRenderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  cityRenderer.setClearColor(0x050710);cityRenderer.shadowMap.enabled=true;cityRenderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  el.appendChild(cityRenderer.domElement);
+  cityControls=new THREE.OrbitControls(cityCamera,cityRenderer.domElement);
+  cityControls.enableDamping=true;cityControls.dampingFactor=.05;cityControls.target.set(0,5,0);
+  cityControls.maxPolarAngle=Math.PI/2.1;cityControls.autoRotate=true;cityControls.autoRotateSpeed=.25;
+
+  cityScene.add(new THREE.AmbientLight(0x334466,.5));
+  const dl=new THREE.DirectionalLight(0xaabbdd,.9);dl.position.set(30,50,20);dl.castShadow=true;
+  dl.shadow.mapSize.set(2048,2048);dl.shadow.camera.left=-60;dl.shadow.camera.right=60;
+  dl.shadow.camera.top=60;dl.shadow.camera.bottom=-60;cityScene.add(dl);
+  cityScene.add(new THREE.PointLight(0x3b82f6,.6,80));
+
+  const gnd=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:0x080c14,roughness:.95}));
+  gnd.rotation.x=-Math.PI/2;gnd.receiveShadow=true;cityScene.add(gnd);
+  cityScene.add(new THREE.GridHelper(200,80,0x151e2d,0x0e1520));
+
+  buildCityGeom(cityScene);buildBridge(cityScene);addDefMarkers(cityScene,cityCamera);addParts(cityScene,600);
+
+  function anim(){cityAnim=requestAnimationFrame(anim);cityControls.update();
+    cityScene.traverse(o=>{if(o.userData.pulse){const s=1+Math.sin(Date.now()*.003+o.userData.phase)*.2;o.scale.setScalar(s);}
+      if(o.userData.beacon){o.material.opacity=.12+Math.sin(Date.now()*.002+o.userData.phase)*.08;}});
+    cityRenderer.render(cityScene,cityCamera);}
+  anim();
+  new ResizeObserver(()=>{const w2=el.clientWidth,h2=el.clientHeight;cityCamera.aspect=w2/h2;cityCamera.updateProjectionMatrix();cityRenderer.setSize(w2,h2);}).observe(el);
+}
+
+function buildCityGeom(sc){
+  for(let bx=-3;bx<=3;bx++)for(let bz=-3;bz<=3;bz++){
+    if(Math.abs(bx)<=1&&bz===0)continue;
+    const x=bx*15,z=bz*15,h=(2+~~(Math.random()*8))*3,w=4+Math.random()*6,d=4+Math.random()*6;
+    const dist=Math.sqrt(bx*bx+bz*bz),health=Math.min(95,40+dist*12+Math.random()*15);
+    const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial({color:hcH(health),roughness:.7,metalness:.3,transparent:true,opacity:.8}));
+    m.position.set(x,h/2,z);m.castShadow=true;m.receiveShadow=true;sc.add(m);
+    sc.add(Object.assign(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(w,h,d)),new THREE.LineBasicMaterial({color:0x1a2332,transparent:true,opacity:.2})),{position:m.position.clone()}));
+    const floors=h/3;for(let f=0;f<floors;f++)for(let ww=0;ww<Math.floor(w/2.5);ww++){
+      if(Math.random()>.45)continue;
+      const win=new THREE.Mesh(new THREE.PlaneGeometry(.5,.7),new THREE.MeshBasicMaterial({color:0x3b82f6,transparent:true,opacity:.3+Math.random()*.3}));
+      win.position.set(x-w/2+1.5+ww*2.2,f*3+1.5,z+d/2+.01);sc.add(win);}
+  }
+  const rm=new THREE.MeshStandardMaterial({color:0x141822,roughness:.95});
+  sc.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(120,.04,10),rm),{position:new THREE.Vector3(0,.02,0)}));
+  for(let rx=-55;rx<55;rx+=4){const mk=new THREE.Mesh(new THREE.BoxGeometry(2,.05,.15),new THREE.MeshBasicMaterial({color:0xeab308,transparent:true,opacity:.5}));mk.position.set(rx,.04,0);sc.add(mk);}
+  [-30,0,30].forEach(cx=>{const cr=new THREE.Mesh(new THREE.BoxGeometry(10,.04,120),rm);cr.position.set(cx,.02,0);sc.add(cr);});
+}
+
+function buildBridge(sc){
+  const deck=new THREE.Mesh(new THREE.BoxGeometry(40,.8,8),new THREE.MeshStandardMaterial({color:0x8b6914,roughness:.8,metalness:.2}));
+  deck.position.set(0,6,0);deck.castShadow=true;deck.receiveShadow=true;sc.add(deck);
+  sc.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(40.05,.82,8.05),new THREE.MeshBasicMaterial({color:0xef4444,transparent:true,opacity:.12})),{position:deck.position.clone()}));
+  [-12,-4,4,12].forEach((px,i)=>{const h=[61,68,68,61][i];
+    const pier=new THREE.Mesh(new THREE.BoxGeometry(2,6,2),new THREE.MeshStandardMaterial({color:hcH(h),roughness:.7,metalness:.3}));
+    pier.position.set(px,3,0);pier.castShadow=true;sc.add(pier);
+    const cap=new THREE.Mesh(new THREE.BoxGeometry(3,.5,9),new THREE.MeshStandardMaterial({color:0x5a4f3a,roughness:.8}));
+    cap.position.set(px,5.75,0);sc.add(cap);});
+  [-22,22].forEach(ax=>{const ab=new THREE.Mesh(new THREE.BoxGeometry(4,7,10),new THREE.MeshStandardMaterial({color:hcH(80),roughness:.8,metalness:.2}));
+    ab.position.set(ax,3.5,0);ab.castShadow=true;sc.add(ab);});
+  for(let rx=-19;rx<=19;rx+=2)[-3.8,3.8].forEach(rz=>{
+    const post=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,1.3,6),new THREE.MeshStandardMaterial({color:0x888,metalness:.6}));
+    post.position.set(rx,7.05,rz);sc.add(post);});
+  const lbl=mkSprite('I-405 BRIDGE — SHI: '+(D.twin?.health_index?.score||37.5)+'/100',0xef4444);
+  lbl.position.set(0,11,0);lbl.scale.set(16,3.5,1);sc.add(lbl);
+}
+
+function addDefMarkers(sc,cam){
+  const zp={deck:{x:0,y:6.5,z:0},pier_1:{x:-12,y:3,z:0},pier_2:{x:4,y:3,z:0},
+    abutment_north:{x:-22,y:4,z:0},abutment_south:{x:22,y:4,z:0},bearing:{x:-4,y:5.5,z:0}};
+  (D.defects||[]).forEach((d,i)=>{
+    const z=zp[d.zone]||{x:0,y:5,z:0};
+    const px=z.x+(Math.random()-.5)*4,py=z.y+(Math.random()-.5)*2,pz=z.z+(Math.random()-.5)*4;
+    const col=d.priority==='critical'?0xef4444:d.priority==='high'?0xf97316:d.priority==='medium'?0xeab308:0x22c55e;
+    const sz=d.priority==='critical'?.45:d.priority==='high'?.35:.25;
+    const sp=new THREE.Mesh(new THREE.SphereGeometry(sz,12,12),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.85}));
+    sp.position.set(px,py,pz);sp.userData={pulse:true,phase:i*.7};sc.add(sp);
+    if(d.priority==='critical'||d.priority==='high'){
+      const ring=new THREE.Mesh(new THREE.RingGeometry(sz*1.4,sz*2,24),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.15,side:THREE.DoubleSide}));
+      ring.position.copy(sp.position);ring.lookAt(cam.position);ring.userData={pulse:true,phase:i*.7+1};sc.add(ring);}
+    if(d.priority==='critical'){
+      const beam=new THREE.Mesh(new THREE.CylinderGeometry(.03,.03,18,6),new THREE.MeshBasicMaterial({color:0xef4444,transparent:true,opacity:.15}));
+      beam.position.set(px,py+9,pz);beam.userData={beacon:true,phase:i};sc.add(beam);}
+  });
+}
+
+function addParts(sc,n){
+  const geo=new THREE.BufferGeometry();const pos=new Float32Array(n*3),col=new Float32Array(n*3);
+  for(let i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*100;pos[i*3+1]=Math.random()*30+5;pos[i*3+2]=(Math.random()-.5)*100;
+    const c=new THREE.Color().setHSL(.55+Math.random()*.15,.7,.5+Math.random()*.3);col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  sc.add(new THREE.Points(geo,new THREE.PointsMaterial({size:.12,vertexColors:true,transparent:true,opacity:.3})));
+}
+
+/* ═════════════════════════════════════════════════════════════
+   3D TWIN (Full Page)
+   ═════════════════════════════════════════════════════════════ */
+function initTwin(){
+  const cv=document.getElementById('twinC');if(twinRenderer)return;
+  twinScene=new THREE.Scene();twinScene.fog=new THREE.FogExp2(0x050710,.003);
+  const par=cv.parentElement,w=par.clientWidth,h=par.clientHeight;
+  twinCamera=new THREE.PerspectiveCamera(45,w/h,.1,1000);twinCamera.position.set(70,50,80);
+  twinRenderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+  twinRenderer.setSize(w,h);twinRenderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  twinRenderer.setClearColor(0x050710);twinRenderer.shadowMap.enabled=true;
+  twinControls=new THREE.OrbitControls(twinCamera,cv);twinControls.enableDamping=true;
+  twinControls.dampingFactor=.05;twinControls.target.set(0,5,0);twinControls.autoRotate=true;twinControls.autoRotateSpeed=.12;
+
+  twinScene.add(new THREE.AmbientLight(0x334466,.45));
+  const dl=new THREE.DirectionalLight(0xaabbdd,.8);dl.position.set(50,60,30);dl.castShadow=true;dl.shadow.mapSize.set(2048,2048);twinScene.add(dl);
+  twinScene.add(new THREE.PointLight(0x3b82f6,.5,100));
+  const gnd=new THREE.Mesh(new THREE.PlaneGeometry(300,300),new THREE.MeshStandardMaterial({color:0x080c14,roughness:.9}));
+  gnd.rotation.x=-Math.PI/2;gnd.receiveShadow=true;twinScene.add(gnd);
+  twinScene.add(new THREE.GridHelper(300,100,0x151e2d,0x0e1520));
+
+  for(let i=0;i<130;i++){const a=Math.random()*Math.PI*2,r=15+Math.random()*80;
+    const x=Math.cos(a)*r,z=Math.sin(a)*r;if(Math.abs(x)<25&&Math.abs(z)<8)continue;
+    const h2=(1+~~(Math.random()*12))*3,w2=3+Math.random()*8,d2=3+Math.random()*8;
+    const dist=Math.sqrt(x*x+z*z),health=Math.min(98,35+dist*.6+Math.random()*20);
+    const m=new THREE.Mesh(new THREE.BoxGeometry(w2,h2,d2),new THREE.MeshStandardMaterial({color:hcH(health),roughness:.75,metalness:.25,transparent:true,opacity:.75}));
+    m.position.set(x,h2/2,z);m.castShadow=true;m.receiveShadow=true;twinScene.add(m);
+    twinScene.add(Object.assign(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(w2,h2,d2)),new THREE.LineBasicMaterial({color:0x1a2332,transparent:true,opacity:.2})),{position:m.position.clone()}));}
+
+  buildBridge(twinScene);addDefMarkers(twinScene,twinCamera);
+
+  // Dense point cloud
+  const pcGeo=new THREE.BufferGeometry(),pcN=10000,pcP=new Float32Array(pcN*3),pcC=new Float32Array(pcN*3);
+  for(let i=0;i<pcN;i++){const x2=(Math.random()-.5)*50,z2=(Math.random()-.5)*12;
+    let y2=Math.random()>.3?5.5+Math.random()*1.5:Math.random()*8;
+    pcP[i*3]=x2;pcP[i*3+1]=y2;pcP[i*3+2]=z2;
+    const h2=40+Math.abs(x2)+Math.random()*20;const c2=new THREE.Color(hcH(h2));
+    pcC[i*3]=c2.r;pcC[i*3+1]=c2.g;pcC[i*3+2]=c2.b;}
+  pcGeo.setAttribute('position',new THREE.BufferAttribute(pcP,3));
+  pcGeo.setAttribute('color',new THREE.BufferAttribute(pcC,3));
+  twinScene.add(new THREE.Points(pcGeo,new THREE.PointsMaterial({size:.06,vertexColors:true,transparent:true,opacity:.65,sizeAttenuation:true})));
+  addParts(twinScene,2000);
+
+  const pc=D.twin?.point_cloud_stats;
+  document.getElementById('twStats').innerHTML=`
+    <div style="font-size:9px;font-weight:600;color:var(--text-2);margin-bottom:4px">3D Reconstruction</div>
+    <div style="font-size:9px;color:var(--text-3);line-height:1.7">
+      Points: <span style="color:var(--blue);font-weight:600">${(pc?.total_points||157432).toLocaleString()}</span><br>
+      Labeled: <span style="color:var(--purple);font-weight:600">${(pc?.labeled_points||89621).toLocaleString()}</span><br>
+      Defect: <span style="color:var(--red);font-weight:600">${(pc?.defect_points||12847).toLocaleString()}</span><br>
+      Method: COLMAP SfM</div>`;
+
+  let lt=0,fc=0;
+  function animT(t){twinAnim=requestAnimationFrame(animT);twinControls.update();fc++;
+    if(t-lt>=1000){document.getElementById('twFps').textContent='FPS: '+fc;fc=0;lt=t;}
+    twinScene.traverse(o=>{if(o.userData.pulse){const s=1+Math.sin(Date.now()*.003+o.userData.phase)*.25;o.scale.setScalar(s);}
+      if(o.userData.beacon){o.material.opacity=.1+Math.sin(Date.now()*.002+o.userData.phase)*.08;}});
+    twinRenderer.render(twinScene,twinCamera);}
+  animT(0);
+  new ResizeObserver(()=>{const w3=par.clientWidth,h3=par.clientHeight;twinCamera.aspect=w3/h3;twinCamera.updateProjectionMatrix();twinRenderer.setSize(w3,h3);}).observe(par);
+}
+
+function setTwView(mode){
+  document.querySelectorAll('.vp-bar button').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase().includes(mode)));
+  document.getElementById('twMode').textContent='Mode: '+mode.charAt(0).toUpperCase()+mode.slice(1);
+  if(!twinScene)return;
+  twinScene.traverse(o=>{if(!o.isMesh)return;
+    if(mode==='wireframe'){if(o.material&&!o.material.isSpriteMaterial)o.material.wireframe=true;}
+    else{if(o.material&&!o.material.isSpriteMaterial)o.material.wireframe=false;}
+    if(mode==='defects'){o.visible=!!o.userData.pulse||!!o.userData.beacon||o.geometry?.type==='PlaneGeometry';}
+    if(mode==='structure'){if(o.userData.pulse||o.userData.beacon)o.visible=false;else o.visible=true;}
+    if(mode==='pointcloud'){o.visible=o.isPoints||o.geometry?.type==='PlaneGeometry';}
+    if(mode==='all'||mode==='heatmap'){o.visible=true;if(o.material&&!o.material.isSpriteMaterial)o.material.wireframe=false;}
+  });
+}
+
+/* ── Helpers ── */
+function mkSprite(t,col){const c=document.createElement('canvas');c.width=1024;c.height=256;
+  const ctx=c.getContext('2d');ctx.fillStyle='rgba(0,0,0,.75)';ctx.beginPath();ctx.roundRect(0,0,1024,256,16);ctx.fill();
+  ctx.fillStyle='#'+col.toString(16).padStart(6,'0');ctx.font='bold 50px Inter,sans-serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(t,512,128);
+  return new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,opacity:.85}));}
+
+function hcH(h){return h>=80?0x22c55e:h>=70?0x84cc16:h>=60?0xeab308:h>=50?0xf97316:0xef4444}
+function hc(h){return h>=80?'var(--green)':h>=70?'#84cc16':h>=60?'var(--yellow)':h>=50?'var(--orange)':'var(--red)'}
+function gc(g){return{A:'var(--green)',B:'#84cc16',C:'var(--yellow)',D:'var(--orange)',F:'var(--red)'}[g]||'var(--text-2)'}
+function sevC(p){return{critical:'var(--red)',high:'var(--orange)',medium:'var(--yellow)',low:'var(--green)'}[p]||'var(--text-2)'}
+
+/* ── Demo Scan ── */
+async function runDemo(){
+  const log=document.getElementById('progLog');log.style.display='block';
+  const steps=['📹 Ingesting drone video — DJI Mavic 3 Enterprise (4K)...',
+    '🎞️ Extracting 42 keyframes (scene change detection)...',
+    '🔍 Quality filter — 35/42 passed (SSIM > 0.95)...',
+    '🧠 Depth Anything v2 on AMD Ryzen AI NPU...',
+    '🔎 YOLOv8 defect detection — 23 defects found...',
+    '🗺️ COLMAP SfM → 157,432 pts on Radeon 890M...',
+    '🏗️ Digital twin — SHI: 37.5/100...',
+    '🤖 Inspector Agent classifying...',
+    '📋 Compliance Agent → ACI/ASCE/IBC...',
+    '🛡️ Safety Agent → risk score...',
+    '📄 Report Agent → PDF...',
+    '✅ Complete — 18.67s total!'];
+  const times=[1200,800,600,1500,1200,2000,800,600,900,500,400,500];
+  for(let i=0;i<steps.length;i++){const el=document.createElement('div');el.className='prog-ln';el.textContent=steps[i];
+    log.appendChild(el);log.scrollTop=log.scrollHeight;await new Promise(r=>setTimeout(r,times[i]));}
+  toast('✅','Scan complete');setTimeout(()=>document.querySelector('[data-p="overview"]').click(),1200);
+}
+
+function toast(icon,msg){const el=document.createElement('div');el.className='toast';
+  el.innerHTML=`<span>${icon}</span><span>${msg}</span>`;document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>el.remove(),4000);}
+
+document.addEventListener('DOMContentLoaded',boot);
+</script>
+</body>
+</html>
