@@ -1,0 +1,134 @@
+{
+  "inspector": {
+    "agent": "Inspector Agent",
+    "model": "Llama 3.1 8B (INT4 via Ryzen AI NPU)",
+    "summary": "Aerial survey of Manipal University Bengaluru campus detected 33 defects across 6 zones. 6 critical findings require immediate action: DEF-002, DEF-006, DEF-020. Priority areas: library facade integrity, hostel structural settlement, and monsoon water ingress mitigation.",
+    "classified_defects": [
+      {
+        "id": "DEF-001",
+        "recommendation": "Commission concrete repair contractor. Remove loose material and apply protective coating."
+      },
+      {
+        "id": "DEF-002",
+        "recommendation": "Inspect roof membrane and flashings. Schedule waterproofing repair before next rainfall."
+      },
+      {
+        "id": "DEF-003",
+        "recommendation": "Schedule structural engineer assessment within 72 hours. Install crack monitors for ongoing measurement."
+      },
+      {
+        "id": "DEF-004",
+        "recommendation": "Remove biological growth and apply biocide treatment. Improve drainage to reduce moisture."
+      },
+      {
+        "id": "DEF-005",
+        "recommendation": "Inspect roof membrane and flashings. Schedule waterproofing repair before next rainfall."
+      },
+      {
+        "id": "DEF-006",
+        "recommendation": "Commission concrete repair contractor. Remove loose material and apply protective coating."
+      },
+      {
+        "id": "DEF-007",
+        "recommendation": "Remove biological growth and apply biocide treatment. Improve drainage to reduce moisture."
+      },
+      {
+        "id": "DEF-008",
+        "recommendation": "Inspect roof membrane and flashings. Schedule waterproofing repair before next rainfall."
+      },
+      {
+        "id": "DEF-009",
+        "recommendation": "Schedule window replacement during next maintenance cycle. Apply temporary weatherproofing."
+      },
+      {
+        "id": "DEF-010",
+        "recommendation": "Inspect roof membrane and flashings. Schedule waterproofing repair before next rainfall."
+      },
+      {
+        "id": "DEF-011",
+        "recommendation": "Schedule window replacement during next maintenance cycle. Apply temporary weatherproofing."
+      },
+      {
+        "id": "DEF-012",
+        "recommendation": "Schedule structural engineer assessment within 72 hours. Install crack monitors for ongoing measurement."
+      }
+    ]
+  },
+  "safety": {
+    "agent": "Safety Assessment Agent",
+    "model": "Mistral 7B (INT4 via AMD NPU)",
+    "risk_score": 95,
+    "risk_level": "High",
+    "immediate_actions": [
+      "Cordon off areas below spalling zones \u2014 falling debris risk",
+      "Install temporary shoring at settlement-affected structures",
+      "Deploy moisture barriers at active water ingress points",
+      "Schedule emergency structural review for critical-rated buildings"
+    ],
+    "monitoring_recommendations": [
+      "Install IoT crack-width sensors on critical facades",
+      "Deploy tilt sensors on structures showing settlement",
+      "Schedule monthly drone re-surveys for change detection",
+      "Establish weather-triggered inspection protocols"
+    ],
+    "risk_factors": [
+      {
+        "factor": "Structural Integrity",
+        "score": 90
+      },
+      {
+        "factor": "Water Damage",
+        "score": 75
+      },
+      {
+        "factor": "Material Degradation",
+        "score": 80
+      },
+      {
+        "factor": "Public Safety",
+        "score": 75
+      }
+    ]
+  },
+  "compliance": {
+    "overall_compliance": "68% \u2014 Non-Compliant",
+    "total_violations": 5,
+    "violations": [
+      {
+        "code": "IBC 1604.5",
+        "description": "Structural integrity compromised \u2014 visible settlement and facade cracking exceed allowable limits",
+        "severity": "critical",
+        "defect_id": "DEF-002"
+      },
+      {
+        "code": "IBC 1503.2",
+        "description": "Roof drainage and waterproofing failures \u2014 active water ingress detected",
+        "severity": "high",
+        "defect_id": "DEF-003"
+      },
+      {
+        "code": "ACI 318-19 \u00a720.5",
+        "description": "Concrete cover insufficient \u2014 corrosion staining indicates rebar exposure risk",
+        "severity": "high",
+        "defect_id": "DEF-005"
+      },
+      {
+        "code": "ASCE 7-22 \u00a72.3",
+        "description": "Facade elements at risk of detachment \u2014 spalling concrete overhead",
+        "severity": "medium",
+        "defect_id": "DEF-008"
+      },
+      {
+        "code": "IBC 2403.2",
+        "description": "Fenestration seal failures \u2014 compromised thermal envelope integrity",
+        "severity": "low",
+        "defect_id": "DEF-010"
+      }
+    ],
+    "compliant_elements": [
+      "Foundation bearing capacity (no major settlement beyond spec)",
+      "Fire egress pathways \u2014 clear and accessible",
+      "Electrical infrastructure \u2014 no exposed hazards detected"
+    ]
+  }
+}

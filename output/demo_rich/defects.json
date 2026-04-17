@@ -1,0 +1,629 @@
+[
+  {
+    "id": "DEF-001",
+    "defect_type": "spalling",
+    "subtype": "concrete_delamination",
+    "severity": 7.3,
+    "confidence": 0.87,
+    "bbox": [
+      1121,
+      824,
+      1704,
+      1030
+    ],
+    "frame_idx": 2,
+    "detection_method": "yolov8",
+    "zone": "auditorium",
+    "zone_name": "Auditorium & Convention Center",
+    "location_description": "Surface pop-out on Civic Center wall panel, freeze-thaw damage pattern",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-002",
+    "defect_type": "roof_deterioration",
+    "subtype": "flashing_failure",
+    "severity": 7.9,
+    "confidence": 0.95,
+    "bbox": [
+      515,
+      682,
+      883,
+      843
+    ],
+    "frame_idx": 4,
+    "detection_method": "yolov8",
+    "zone": "library_tower",
+    "zone_name": "Central Library",
+    "location_description": "Flashing failure at Tower 1 \u2014 Mixed Use parapet junction, water ingress active",
+    "priority": "critical"
+  },
+  {
+    "id": "DEF-003",
+    "defect_type": "facade_crack",
+    "subtype": "horizontal",
+    "severity": 4.5,
+    "confidence": 0.94,
+    "bbox": [
+      944,
+      761,
+      1474,
+      914
+    ],
+    "frame_idx": 5,
+    "detection_method": "yolov8",
+    "zone": "campus_infra",
+    "zone_name": "Campus Roads & Utilities",
+    "location_description": "Diagonal shear crack across Infrastructure \u2014 Roads & Utilities wall, penetrating render layer",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-004",
+    "defect_type": "vegetation_intrusion",
+    "subtype": "root_damage",
+    "severity": 4.3,
+    "confidence": 0.91,
+    "bbox": [
+      1060,
+      360,
+      1703,
+      550
+    ],
+    "frame_idx": 7,
+    "detection_method": "yolov8",
+    "zone": "admin_block",
+    "zone_name": "Admin & Office Block",
+    "location_description": "Root intrusion at Tower 2 \u2014 Office foundation, structural concern",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-005",
+    "defect_type": "roof_deterioration",
+    "subtype": "ponding",
+    "severity": 6.2,
+    "confidence": 0.88,
+    "bbox": [
+      823,
+      652,
+      1233,
+      854
+    ],
+    "frame_idx": 8,
+    "detection_method": "rt-detr",
+    "zone": "admin_block",
+    "zone_name": "Admin & Office Block",
+    "location_description": "Flashing failure at Tower 2 \u2014 Office parapet junction, water ingress active",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-006",
+    "defect_type": "spalling",
+    "subtype": "render_detachment",
+    "severity": 8.1,
+    "confidence": 0.79,
+    "bbox": [
+      1002,
+      705,
+      1624,
+      897
+    ],
+    "frame_idx": 8,
+    "detection_method": "rt-detr",
+    "zone": "campus_infra",
+    "zone_name": "Campus Roads & Utilities",
+    "location_description": "Surface pop-out on Infrastructure \u2014 Roads & Utilities wall panel, freeze-thaw damage pattern",
+    "priority": "critical"
+  },
+  {
+    "id": "DEF-007",
+    "defect_type": "vegetation_intrusion",
+    "subtype": "vine_penetration",
+    "severity": 4.8,
+    "confidence": 0.92,
+    "bbox": [
+      201,
+      785,
+      678,
+      961
+    ],
+    "frame_idx": 8,
+    "detection_method": "yolov8",
+    "zone": "library_tower",
+    "zone_name": "Central Library",
+    "location_description": "Root intrusion at Tower 1 \u2014 Mixed Use foundation, structural concern",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-008",
+    "defect_type": "roof_deterioration",
+    "subtype": "flashing_failure",
+    "severity": 7.0,
+    "confidence": 0.82,
+    "bbox": [
+      197,
+      517,
+      860,
+      671
+    ],
+    "frame_idx": 10,
+    "detection_method": "yolov8",
+    "zone": "library_tower",
+    "zone_name": "Central Library",
+    "location_description": "Roof membrane damage on Tower 1 \u2014 Mixed Use, UV degradation pattern",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-009",
+    "defect_type": "window_damage",
+    "subtype": "glass_crack",
+    "severity": 4.6,
+    "confidence": 0.96,
+    "bbox": [
+      1271,
+      363,
+      1677,
+      453
+    ],
+    "frame_idx": 10,
+    "detection_method": "yolov8",
+    "zone": "hostel_complex",
+    "zone_name": "Hostel Complex",
+    "location_description": "Window frame deterioration on Block B \u2014 Commercial, sealant degradation",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-010",
+    "defect_type": "roof_deterioration",
+    "subtype": "ponding",
+    "severity": 6.4,
+    "confidence": 0.96,
+    "bbox": [
+      456,
+      806,
+      747,
+      1005
+    ],
+    "frame_idx": 11,
+    "detection_method": "rt-detr",
+    "zone": "campus_infra",
+    "zone_name": "Campus Roads & Utilities",
+    "location_description": "Roof membrane damage on Infrastructure \u2014 Roads & Utilities, UV degradation pattern",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-011",
+    "defect_type": "window_damage",
+    "subtype": "seal_failure",
+    "severity": 3.3,
+    "confidence": 0.96,
+    "bbox": [
+      1065,
+      523,
+      1617,
+      621
+    ],
+    "frame_idx": 11,
+    "detection_method": "yolov8",
+    "zone": "admin_block",
+    "zone_name": "Admin & Office Block",
+    "location_description": "Window frame deterioration on Tower 2 \u2014 Office, sealant degradation",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-012",
+    "defect_type": "facade_crack",
+    "subtype": "horizontal",
+    "severity": 5.8,
+    "confidence": 0.75,
+    "bbox": [
+      621,
+      782,
+      1261,
+      925
+    ],
+    "frame_idx": 11,
+    "detection_method": "yolov8",
+    "zone": "auditorium",
+    "zone_name": "Auditorium & Convention Center",
+    "location_description": "Vertical crack on Civic Center facade, 1.6m estimated length",
+    "priority": "medium"
+  },
+  {
+    "id": "DEF-013",
+    "defect_type": "roof_deterioration",
+    "subtype": "membrane_damage",
+    "severity": 4.8,
+    "confidence": 0.95,
+    "bbox": [
+      817,
+      359,
+      1041,
+      559
+    ],
+    "frame_idx": 14,
+    "detection_method": "yolov8",
+    "zone": "campus_infra",
+    "zone_name": "Campus Roads & Utilities",
+    "location_description": "Flashing failure at Infrastructure \u2014 Roads & Utilities parapet junction, water ingress active",
+    "priority": "medium"
+  },
+  {
+    "id": "DEF-014",
+    "defect_type": "spalling",
+    "subtype": "render_detachment",
+    "severity": 6.8,
+    "confidence": 0.77,
+    "bbox": [
+      282,
+      492,
+      658,
+      684
+    ],
+    "frame_idx": 15,
+    "detection_method": "rt-detr",
+    "zone": "campus_infra",
+    "zone_name": "Campus Roads & Utilities",
+    "location_description": "Surface pop-out on Infrastructure \u2014 Roads & Utilities wall panel, freeze-thaw damage pattern",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-015",
+    "defect_type": "spalling",
+    "subtype": "render_detachment",
+    "severity": 5.8,
+    "confidence": 0.8,
+    "bbox": [
+      851,
+      622,
+      1479,
+      809
+    ],
+    "frame_idx": 15,
+    "detection_method": "rt-detr",
+    "zone": "library_tower",
+    "zone_name": "Central Library",
+    "location_description": "Concrete spalling on Tower 1 \u2014 Mixed Use column, 0.99m\u00b2 affected area",
+    "priority": "medium"
+  },
+  {
+    "id": "DEF-016",
+    "defect_type": "spalling",
+    "subtype": "surface_pop_out",
+    "severity": 5.5,
+    "confidence": 0.92,
+    "bbox": [
+      1322,
+      672,
+      1570,
+      847
+    ],
+    "frame_idx": 17,
+    "detection_method": "yolov8",
+    "zone": "academic_block",
+    "zone_name": "Academic Block \u2014 MIT Bengaluru",
+    "location_description": "Concrete spalling on Block A \u2014 Residential column, 0.37m\u00b2 affected area",
+    "priority": "medium"
+  },
+  {
+    "id": "DEF-017",
+    "defect_type": "facade_crack",
+    "subtype": "structural",
+    "severity": 7.1,
+    "confidence": 0.86,
+    "bbox": [
+      1163,
+      558,
+      1603,
+      759
+    ],
+    "frame_idx": 18,
+    "detection_method": "yolov8",
+    "zone": "auditorium",
+    "zone_name": "Auditorium & Convention Center",
+    "location_description": "Diagonal shear crack across Civic Center wall, penetrating render layer",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-018",
+    "defect_type": "vegetation_intrusion",
+    "subtype": "root_damage",
+    "severity": 3.3,
+    "confidence": 0.87,
+    "bbox": [
+      217,
+      857,
+      559,
+      1077
+    ],
+    "frame_idx": 18,
+    "detection_method": "yolov8",
+    "zone": "library_tower",
+    "zone_name": "Central Library",
+    "location_description": "Root intrusion at Tower 1 \u2014 Mixed Use foundation, structural concern",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-019",
+    "defect_type": "structural_settlement",
+    "subtype": "tilting",
+    "severity": 7.2,
+    "confidence": 0.74,
+    "bbox": [
+      481,
+      363,
+      692,
+      446
+    ],
+    "frame_idx": 20,
+    "detection_method": "depth_analysis",
+    "zone": "academic_block",
+    "zone_name": "Academic Block \u2014 MIT Bengaluru",
+    "location_description": "Structural tilting of Block A \u2014 Residential facade, plumb deviation 10.5mm/m",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-020",
+    "defect_type": "structural_settlement",
+    "subtype": "tilting",
+    "severity": 9.7,
+    "confidence": 0.94,
+    "bbox": [
+      947,
+      776,
+      1320,
+      987
+    ],
+    "frame_idx": 20,
+    "detection_method": "depth_analysis",
+    "zone": "library_tower",
+    "zone_name": "Central Library",
+    "location_description": "Structural tilting of Tower 1 \u2014 Mixed Use facade, plumb deviation 6.6mm/m",
+    "priority": "critical"
+  },
+  {
+    "id": "DEF-021",
+    "defect_type": "facade_crack",
+    "subtype": "hairline",
+    "severity": 8.2,
+    "confidence": 0.8,
+    "bbox": [
+      250,
+      644,
+      741,
+      777
+    ],
+    "frame_idx": 20,
+    "detection_method": "rt-detr",
+    "zone": "library_tower",
+    "zone_name": "Central Library",
+    "location_description": "Vertical crack on Tower 1 \u2014 Mixed Use facade, 1.5m estimated length",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-022",
+    "defect_type": "facade_crack",
+    "subtype": "diagonal_shear",
+    "severity": 4.2,
+    "confidence": 0.86,
+    "bbox": [
+      1326,
+      652,
+      1841,
+      862
+    ],
+    "frame_idx": 22,
+    "detection_method": "rt-detr",
+    "zone": "hostel_complex",
+    "zone_name": "Hostel Complex",
+    "location_description": "Diagonal shear crack across Block B \u2014 Commercial wall, penetrating render layer",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-023",
+    "defect_type": "spalling",
+    "subtype": "concrete_delamination",
+    "severity": 7.9,
+    "confidence": 0.92,
+    "bbox": [
+      1400,
+      749,
+      1582,
+      945
+    ],
+    "frame_idx": 22,
+    "detection_method": "yolov8",
+    "zone": "auditorium",
+    "zone_name": "Auditorium & Convention Center",
+    "location_description": "Concrete spalling on Civic Center column, 0.91m\u00b2 affected area",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-024",
+    "defect_type": "vegetation_intrusion",
+    "subtype": "vine_penetration",
+    "severity": 3.4,
+    "confidence": 0.85,
+    "bbox": [
+      1679,
+      618,
+      1870,
+      807
+    ],
+    "frame_idx": 24,
+    "detection_method": "yolov8",
+    "zone": "hostel_complex",
+    "zone_name": "Hostel Complex",
+    "location_description": "Biological growth on Block B \u2014 Commercial facade, moisture retention risk",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-025",
+    "defect_type": "roof_deterioration",
+    "subtype": "flashing_failure",
+    "severity": 7.8,
+    "confidence": 0.78,
+    "bbox": [
+      1448,
+      704,
+      1755,
+      865
+    ],
+    "frame_idx": 26,
+    "detection_method": "rt-detr",
+    "zone": "auditorium",
+    "zone_name": "Auditorium & Convention Center",
+    "location_description": "Roof membrane damage on Civic Center, UV degradation pattern",
+    "priority": "critical"
+  },
+  {
+    "id": "DEF-026",
+    "defect_type": "spalling",
+    "subtype": "surface_pop_out",
+    "severity": 8.3,
+    "confidence": 0.92,
+    "bbox": [
+      992,
+      183,
+      1565,
+      294
+    ],
+    "frame_idx": 28,
+    "detection_method": "rt-detr",
+    "zone": "hostel_complex",
+    "zone_name": "Hostel Complex",
+    "location_description": "Concrete spalling on Block B \u2014 Commercial column, 0.24m\u00b2 affected area",
+    "priority": "critical"
+  },
+  {
+    "id": "DEF-027",
+    "defect_type": "spalling",
+    "subtype": "render_detachment",
+    "severity": 7.7,
+    "confidence": 0.89,
+    "bbox": [
+      1092,
+      400,
+      1348,
+      476
+    ],
+    "frame_idx": 28,
+    "detection_method": "yolov8",
+    "zone": "campus_infra",
+    "zone_name": "Campus Roads & Utilities",
+    "location_description": "Render delamination on Infrastructure \u2014 Roads & Utilities parapet, exposing substrate",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-028",
+    "defect_type": "window_damage",
+    "subtype": "frame_degradation",
+    "severity": 3.2,
+    "confidence": 0.79,
+    "bbox": [
+      1596,
+      776,
+      1777,
+      863
+    ],
+    "frame_idx": 30,
+    "detection_method": "yolov8",
+    "zone": "academic_block",
+    "zone_name": "Academic Block \u2014 MIT Bengaluru",
+    "location_description": "Window frame deterioration on Block A \u2014 Residential, sealant degradation",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-029",
+    "defect_type": "structural_settlement",
+    "subtype": "tilting",
+    "severity": 7.4,
+    "confidence": 0.91,
+    "bbox": [
+      1079,
+      810,
+      1599,
+      863
+    ],
+    "frame_idx": 30,
+    "detection_method": "rt-detr",
+    "zone": "hostel_complex",
+    "zone_name": "Hostel Complex",
+    "location_description": "Differential settlement detected at Block B \u2014 Commercial foundation, 4.1mm offset",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-030",
+    "defect_type": "vegetation_intrusion",
+    "subtype": "root_damage",
+    "severity": 4.1,
+    "confidence": 0.87,
+    "bbox": [
+      619,
+      600,
+      837,
+      741
+    ],
+    "frame_idx": 32,
+    "detection_method": "yolov8",
+    "zone": "library_tower",
+    "zone_name": "Central Library",
+    "location_description": "Biological growth on Tower 1 \u2014 Mixed Use facade, moisture retention risk",
+    "priority": "low"
+  },
+  {
+    "id": "DEF-031",
+    "defect_type": "structural_settlement",
+    "subtype": "tilting",
+    "severity": 9.5,
+    "confidence": 0.75,
+    "bbox": [
+      712,
+      975,
+      1173,
+      1052
+    ],
+    "frame_idx": 32,
+    "detection_method": "rt-detr",
+    "zone": "library_tower",
+    "zone_name": "Central Library",
+    "location_description": "Structural tilting of Tower 1 \u2014 Mixed Use facade, plumb deviation 9.6mm/m",
+    "priority": "critical"
+  },
+  {
+    "id": "DEF-032",
+    "defect_type": "facade_crack",
+    "subtype": "horizontal",
+    "severity": 7.6,
+    "confidence": 0.76,
+    "bbox": [
+      543,
+      875,
+      1202,
+      1001
+    ],
+    "frame_idx": 32,
+    "detection_method": "rt-detr",
+    "zone": "academic_block",
+    "zone_name": "Academic Block \u2014 MIT Bengaluru",
+    "location_description": "Diagonal shear crack across Block A \u2014 Residential wall, penetrating render layer",
+    "priority": "high"
+  },
+  {
+    "id": "DEF-033",
+    "defect_type": "spalling",
+    "subtype": "concrete_delamination",
+    "severity": 7.7,
+    "confidence": 0.87,
+    "bbox": [
+      717,
+      709,
+      1095,
+      844
+    ],
+    "frame_idx": 34,
+    "detection_method": "yolov8",
+    "zone": "admin_block",
+    "zone_name": "Admin & Office Block",
+    "location_description": "Render delamination on Tower 2 \u2014 Office parapet, exposing substrate",
+    "priority": "high"
+  }
+]

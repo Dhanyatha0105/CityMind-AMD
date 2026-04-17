@@ -1,0 +1,22 @@
+{
+  "pipeline_id": "CITY-MUB-20260228-221507",
+  "mode": "production",
+  "structure_type": "University Campus Infrastructure",
+  "location": "Manipal University, Bengaluru",
+  "gps": {
+    "lat": 12.8352,
+    "lon": 77.6744
+  },
+  "inspection_date": "2026-02-28T22:15:07.000000",
+  "video_source": "DJI Mavic 3 Enterprise (4K, 30fps)",
+  "video_duration_s": 127.5,
+  "frames_extracted": 42,
+  "frames_after_filter": 35,
+  "processing_time_s": 18.7,
+  "amd_hardware": {
+    "cpu": "AMD Ryzen AI 9 HX 370",
+    "npu": "AMD XDNA2 (50 TOPS)",
+    "igpu": "AMD Radeon 890M",
+    "ram": "64GB LPDDR5x"
+  }
+}

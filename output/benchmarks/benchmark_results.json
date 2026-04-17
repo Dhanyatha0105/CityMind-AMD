@@ -1,0 +1,124 @@
+{
+  "system_info": {
+    "platform": "macOS-26.3-arm64-arm-64bit-Mach-O",
+    "processor": "arm",
+    "python_version": "3.14.3",
+    "machine": "arm64",
+    "timestamp": "2026-02-28T03:30:26.840950",
+    "cpu": "Apple M4",
+    "onnxruntime_version": "1.24.2",
+    "available_providers": [
+      "CoreMLExecutionProvider",
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "pytorch_version": "2.10.0",
+    "cuda_available": false,
+    "rocm_available": false
+  },
+  "benchmarks": {
+    "layer1_ingestion": {
+      "name": "layer1_ingestion",
+      "iterations": 1,
+      "mean_s": 0.04521229100646451,
+      "median_s": 0.04521229100646451,
+      "min_s": 0.04521229100646451,
+      "max_s": 0.04521229100646451,
+      "std_s": 0,
+      "times": [
+        0.04521229100646451
+      ]
+    },
+    "layer2_perception": {
+      "name": "layer2_perception",
+      "iterations": 1,
+      "mean_s": 5.291282624995802,
+      "median_s": 5.291282624995802,
+      "min_s": 5.291282624995802,
+      "max_s": 5.291282624995802,
+      "std_s": 0,
+      "times": [
+        5.291282624995802
+      ]
+    },
+    "layer3_reconstruction": {
+      "name": "layer3_reconstruction",
+      "iterations": 1,
+      "mean_s": 0.023470875050406903,
+      "median_s": 0.023470875050406903,
+      "min_s": 0.023470875050406903,
+      "max_s": 0.023470875050406903,
+      "std_s": 0,
+      "times": [
+        0.023470875050406903
+      ]
+    },
+    "layer4_twin": {
+      "name": "layer4_twin",
+      "iterations": 1,
+      "mean_s": 0.0010732089867815375,
+      "median_s": 0.0010732089867815375,
+      "min_s": 0.0010732089867815375,
+      "max_s": 0.0010732089867815375,
+      "std_s": 0,
+      "times": [
+        0.0010732089867815375
+      ]
+    },
+    "layer5_agents": {
+      "name": "layer5_agents",
+      "iterations": 1,
+      "mean_s": 0.002159999974537641,
+      "median_s": 0.002159999974537641,
+      "min_s": 0.002159999974537641,
+      "max_s": 0.002159999974537641,
+      "std_s": 0,
+      "times": [
+        0.002159999974537641
+      ]
+    },
+    "layer6_report": {
+      "name": "layer6_report",
+      "iterations": 1,
+      "mean_s": 0.11152508400846273,
+      "median_s": 0.11152508400846273,
+      "min_s": 0.11152508400846273,
+      "max_s": 0.11152508400846273,
+      "std_s": 0,
+      "times": [
+        0.11152508400846273
+      ]
+    },
+    "deviation_analysis": {
+      "name": "deviation_analysis",
+      "iterations": 1,
+      "mean_s": 0.0034468750236555934,
+      "median_s": 0.0034468750236555934,
+      "min_s": 0.0034468750236555934,
+      "max_s": 0.0034468750236555934,
+      "std_s": 0,
+      "times": [
+        0.0034468750236555934
+      ]
+    },
+    "full_pipeline_synthetic": {
+      "name": "full_pipeline_synthetic",
+      "iterations": 1,
+      "mean_s": 4.461242749996018,
+      "median_s": 4.461242749996018,
+      "min_s": 4.461242749996018,
+      "max_s": 4.461242749996018,
+      "std_s": 0,
+      "times": [
+        4.461242749996018
+      ]
+    }
+  },
+  "total_time_s": 9.939413709042128,
+  "iterations": 1,
+  "timestamp": "2026-02-28T03:30:37.714881",
+  "amd_projections": {
+    "npu_speedup_factor": 3.5,
+    "note": "INT8 quantized models on Ryzen AI NPU (XDNA) expected to deliver 3-5x speedup over CPU for perception models"
+  }
+}

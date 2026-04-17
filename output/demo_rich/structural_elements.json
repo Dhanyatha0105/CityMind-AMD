@@ -1,0 +1,44 @@
+[
+  {
+    "type": "pier",
+    "count": 4,
+    "material": "reinforced_concrete",
+    "condition": "fair"
+  },
+  {
+    "type": "deck",
+    "count": 1,
+    "material": "prestressed_concrete",
+    "condition": "poor"
+  },
+  {
+    "type": "abutment",
+    "count": 2,
+    "material": "reinforced_concrete",
+    "condition": "good"
+  },
+  {
+    "type": "bearing",
+    "count": 8,
+    "material": "elastomeric",
+    "condition": "fair"
+  },
+  {
+    "type": "expansion_joint",
+    "count": 2,
+    "material": "steel_finger",
+    "condition": "poor"
+  },
+  {
+    "type": "railing",
+    "count": 2,
+    "material": "steel",
+    "condition": "good"
+  },
+  {
+    "type": "drainage",
+    "count": 6,
+    "material": "pvc",
+    "condition": "fair"
+  }
+]

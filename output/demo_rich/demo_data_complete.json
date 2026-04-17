@@ -1,0 +1,1237 @@
+{
+  "pipeline": {
+    "pipeline_id": "CITY-DEMO-20260228-031745",
+    "mode": "demo",
+    "structure_type": "Reinforced Concrete Bridge",
+    "location": "Interstate 405, Los Angeles, CA",
+    "gps": {
+      "lat": 34.0522,
+      "lon": -118.2437
+    },
+    "inspection_date": "2026-02-28T03:17:45.176150",
+    "video_source": "DJI Mavic 3 Enterprise (4K, 30fps)",
+    "video_duration_s": 127.5,
+    "frames_extracted": 42,
+    "frames_after_filter": 35,
+    "processing_time_s": 18.7,
+    "amd_hardware": {
+      "cpu": "AMD Ryzen AI 9 HX 370",
+      "npu": "AMD XDNA2 (50 TOPS)",
+      "igpu": "AMD Radeon 890M",
+      "ram": "64GB LPDDR5x"
+    }
+  },
+  "defects": [
+    {
+      "id": "DEF-001",
+      "defect_type": "corrosion",
+      "subtype": "surface_rust",
+      "severity": 6.7,
+      "confidence": 0.96,
+      "bbox": [
+        124,
+        226,
+        565,
+        457
+      ],
+      "frame_idx": 8,
+      "detection_method": "yolov8",
+      "zone": "deck",
+      "location_description": "Deck underside, midspan section",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-002",
+      "defect_type": "exposed_rebar",
+      "subtype": "full_exposure",
+      "severity": 3.9,
+      "confidence": 0.96,
+      "bbox": [
+        206,
+        202,
+        745,
+        553
+      ],
+      "frame_idx": 4,
+      "detection_method": "yolov8",
+      "zone": "pier_2",
+      "location_description": "Deck surface, lane 2 near expansion joint",
+      "priority": "low"
+    },
+    {
+      "id": "DEF-003",
+      "defect_type": "crack",
+      "subtype": "alligator",
+      "severity": 7.5,
+      "confidence": 0.93,
+      "bbox": [
+        197,
+        183,
+        576,
+        508
+      ],
+      "frame_idx": 31,
+      "detection_method": "rt-detr",
+      "zone": "abutment_south",
+      "location_description": "East face of Pier 1, 2.3m from base",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-004",
+      "defect_type": "settlement",
+      "subtype": "uniform",
+      "severity": 8.3,
+      "confidence": 0.95,
+      "bbox": [
+        215,
+        196,
+        556,
+        501
+      ],
+      "frame_idx": 11,
+      "detection_method": "yolov8",
+      "zone": "abutment_south",
+      "location_description": "East face of Pier 1, 2.3m from base",
+      "priority": "critical"
+    },
+    {
+      "id": "DEF-005",
+      "defect_type": "exposed_rebar",
+      "subtype": "full_exposure",
+      "severity": 6.6,
+      "confidence": 0.86,
+      "bbox": [
+        107,
+        165,
+        722,
+        561
+      ],
+      "frame_idx": 7,
+      "detection_method": "rt-detr",
+      "zone": "abutment_south",
+      "location_description": "Pier 2 column, west face at 4.1m height",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-006",
+      "defect_type": "efflorescence",
+      "subtype": "white_deposit",
+      "severity": 5.7,
+      "confidence": 0.75,
+      "bbox": [
+        163,
+        78,
+        485,
+        380
+      ],
+      "frame_idx": 30,
+      "detection_method": "rt-detr",
+      "zone": "bearing",
+      "location_description": "Deck underside, midspan section",
+      "priority": "medium"
+    },
+    {
+      "id": "DEF-007",
+      "defect_type": "corrosion",
+      "subtype": "staining",
+      "severity": 3.8,
+      "confidence": 0.84,
+      "bbox": [
+        89,
+        188,
+        470,
+        533
+      ],
+      "frame_idx": 18,
+      "detection_method": "yolov8",
+      "zone": "pier_1",
+      "location_description": "Deck surface, lane 2 near expansion joint",
+      "priority": "low"
+    },
+    {
+      "id": "DEF-008",
+      "defect_type": "exposed_rebar",
+      "subtype": "partial",
+      "severity": 7.6,
+      "confidence": 0.76,
+      "bbox": [
+        130,
+        255,
+        580,
+        443
+      ],
+      "frame_idx": 5,
+      "detection_method": "rt-detr",
+      "zone": "deck",
+      "location_description": "Pier 2 column, west face at 4.1m height",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-009",
+      "defect_type": "settlement",
+      "subtype": "differential",
+      "severity": 6.2,
+      "confidence": 0.92,
+      "bbox": [
+        126,
+        132,
+        727,
+        565
+      ],
+      "frame_idx": 7,
+      "detection_method": "yolov8",
+      "zone": "abutment_south",
+      "location_description": "South abutment wingwall, lower section",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-010",
+      "defect_type": "settlement",
+      "subtype": "uniform",
+      "severity": 4.2,
+      "confidence": 0.73,
+      "bbox": [
+        393,
+        279,
+        547,
+        565
+      ],
+      "frame_idx": 26,
+      "detection_method": "yolov8",
+      "zone": "abutment_south",
+      "location_description": "Deck surface, lane 2 near expansion joint",
+      "priority": "medium"
+    },
+    {
+      "id": "DEF-011",
+      "defect_type": "efflorescence",
+      "subtype": "white_deposit",
+      "severity": 6.4,
+      "confidence": 0.88,
+      "bbox": [
+        213,
+        239,
+        681,
+        443
+      ],
+      "frame_idx": 16,
+      "detection_method": "color_analysis",
+      "zone": "deck",
+      "location_description": "Pier 2 column, west face at 4.1m height",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-012",
+      "defect_type": "exposed_rebar",
+      "subtype": "partial",
+      "severity": 6.2,
+      "confidence": 0.96,
+      "bbox": [
+        362,
+        105,
+        777,
+        382
+      ],
+      "frame_idx": 0,
+      "detection_method": "color_analysis",
+      "zone": "abutment_north",
+      "location_description": "Deck surface, lane 2 near expansion joint",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-013",
+      "defect_type": "corrosion",
+      "subtype": "surface_rust",
+      "severity": 6.2,
+      "confidence": 0.76,
+      "bbox": [
+        141,
+        53,
+        726,
+        502
+      ],
+      "frame_idx": 23,
+      "detection_method": "rt-detr",
+      "zone": "deck",
+      "location_description": "Pier 2 column, west face at 4.1m height",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-014",
+      "defect_type": "exposed_rebar",
+      "subtype": "partial",
+      "severity": 7.4,
+      "confidence": 0.76,
+      "bbox": [
+        380,
+        271,
+        635,
+        523
+      ],
+      "frame_idx": 19,
+      "detection_method": "rt-detr",
+      "zone": "pier_1",
+      "location_description": "South abutment wingwall, lower section",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-015",
+      "defect_type": "corrosion",
+      "subtype": "section_loss",
+      "severity": 3.8,
+      "confidence": 0.91,
+      "bbox": [
+        332,
+        97,
+        511,
+        417
+      ],
+      "frame_idx": 18,
+      "detection_method": "yolov8",
+      "zone": "pier_1",
+      "location_description": "East face of Pier 1, 2.3m from base",
+      "priority": "low"
+    },
+    {
+      "id": "DEF-016",
+      "defect_type": "corrosion",
+      "subtype": "staining",
+      "severity": 6.9,
+      "confidence": 0.82,
+      "bbox": [
+        149,
+        242,
+        719,
+        435
+      ],
+      "frame_idx": 9,
+      "detection_method": "rt-detr",
+      "zone": "bearing",
+      "location_description": "Deck surface, lane 2 near expansion joint",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-017",
+      "defect_type": "settlement",
+      "subtype": "uniform",
+      "severity": 9.1,
+      "confidence": 0.94,
+      "bbox": [
+        326,
+        121,
+        687,
+        505
+      ],
+      "frame_idx": 34,
+      "detection_method": "rt-detr",
+      "zone": "abutment_north",
+      "location_description": "Deck surface, lane 2 near expansion joint",
+      "priority": "critical"
+    },
+    {
+      "id": "DEF-018",
+      "defect_type": "corrosion",
+      "subtype": "staining",
+      "severity": 9.1,
+      "confidence": 0.83,
+      "bbox": [
+        229,
+        215,
+        629,
+        482
+      ],
+      "frame_idx": 5,
+      "detection_method": "yolov8",
+      "zone": "deck",
+      "location_description": "Deck underside, midspan section",
+      "priority": "critical"
+    },
+    {
+      "id": "DEF-019",
+      "defect_type": "crack",
+      "subtype": "alligator",
+      "severity": 7.5,
+      "confidence": 0.98,
+      "bbox": [
+        338,
+        238,
+        795,
+        412
+      ],
+      "frame_idx": 25,
+      "detection_method": "yolov8",
+      "zone": "pier_2",
+      "location_description": "Pier 2 column, west face at 4.1m height",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-020",
+      "defect_type": "spalling",
+      "subtype": "delamination",
+      "severity": 3.0,
+      "confidence": 0.93,
+      "bbox": [
+        174,
+        233,
+        713,
+        572
+      ],
+      "frame_idx": 1,
+      "detection_method": "yolov8",
+      "zone": "pier_2",
+      "location_description": "Pier 2 column, west face at 4.1m height",
+      "priority": "low"
+    },
+    {
+      "id": "DEF-021",
+      "defect_type": "exposed_rebar",
+      "subtype": "partial",
+      "severity": 3.9,
+      "confidence": 0.88,
+      "bbox": [
+        195,
+        55,
+        596,
+        551
+      ],
+      "frame_idx": 15,
+      "detection_method": "color_analysis",
+      "zone": "abutment_north",
+      "location_description": "North abutment bearing pad area",
+      "priority": "low"
+    },
+    {
+      "id": "DEF-022",
+      "defect_type": "crack",
+      "subtype": "transverse",
+      "severity": 6.0,
+      "confidence": 0.97,
+      "bbox": [
+        86,
+        156,
+        592,
+        444
+      ],
+      "frame_idx": 18,
+      "detection_method": "rt-detr",
+      "zone": "abutment_south",
+      "location_description": "Deck surface, lane 2 near expansion joint",
+      "priority": "high"
+    },
+    {
+      "id": "DEF-023",
+      "defect_type": "settlement",
+      "subtype": "uniform",
+      "severity": 6.0,
+      "confidence": 0.78,
+      "bbox": [
+        197,
+        273,
+        553,
+        483
+      ],
+      "frame_idx": 20,
+      "detection_method": "color_analysis",
+      "zone": "pier_2",
+      "location_description": "Deck underside, midspan section",
+      "priority": "high"
+    }
+  ],
+  "structural_elements": [
+    {
+      "type": "pier",
+      "count": 4,
+      "material": "reinforced_concrete",
+      "condition": "fair"
+    },
+    {
+      "type": "deck",
+      "count": 1,
+      "material": "prestressed_concrete",
+      "condition": "poor"
+    },
+    {
+      "type": "abutment",
+      "count": 2,
+      "material": "reinforced_concrete",
+      "condition": "good"
+    },
+    {
+      "type": "bearing",
+      "count": 8,
+      "material": "elastomeric",
+      "condition": "fair"
+    },
+    {
+      "type": "expansion_joint",
+      "count": 2,
+      "material": "steel_finger",
+      "condition": "poor"
+    },
+    {
+      "type": "railing",
+      "count": 2,
+      "material": "steel",
+      "condition": "good"
+    },
+    {
+      "type": "drainage",
+      "count": 6,
+      "material": "pvc",
+      "condition": "fair"
+    }
+  ],
+  "twin": {
+    "twin_id": "TWIN-BRIDGE-20260228",
+    "structure_type": "Reinforced Concrete Bridge",
+    "health_index": {
+      "score": 37.5,
+      "grade": "F",
+      "status": "Critical",
+      "defect_count": 23,
+      "critical_count": 3,
+      "high_count": 13,
+      "medium_count": 2,
+      "low_count": 5
+    },
+    "defect_analysis": {
+      "total_defects": 23,
+      "critical_defects": [
+        {
+          "id": "DEF-004",
+          "defect_type": "settlement",
+          "subtype": "uniform",
+          "severity": 8.3,
+          "confidence": 0.95,
+          "bbox": [
+            215,
+            196,
+            556,
+            501
+          ],
+          "frame_idx": 11,
+          "detection_method": "yolov8",
+          "zone": "abutment_south",
+          "location_description": "East face of Pier 1, 2.3m from base",
+          "priority": "critical"
+        },
+        {
+          "id": "DEF-017",
+          "defect_type": "settlement",
+          "subtype": "uniform",
+          "severity": 9.1,
+          "confidence": 0.94,
+          "bbox": [
+            326,
+            121,
+            687,
+            505
+          ],
+          "frame_idx": 34,
+          "detection_method": "rt-detr",
+          "zone": "abutment_north",
+          "location_description": "Deck surface, lane 2 near expansion joint",
+          "priority": "critical"
+        },
+        {
+          "id": "DEF-018",
+          "defect_type": "corrosion",
+          "subtype": "staining",
+          "severity": 9.1,
+          "confidence": 0.83,
+          "bbox": [
+            229,
+            215,
+            629,
+            482
+          ],
+          "frame_idx": 5,
+          "detection_method": "yolov8",
+          "zone": "deck",
+          "location_description": "Deck underside, midspan section",
+          "priority": "critical"
+        }
+      ],
+      "high_defects": [
+        {
+          "id": "DEF-001",
+          "defect_type": "corrosion",
+          "subtype": "surface_rust",
+          "severity": 6.7,
+          "confidence": 0.96,
+          "bbox": [
+            124,
+            226,
+            565,
+            457
+          ],
+          "frame_idx": 8,
+          "detection_method": "yolov8",
+          "zone": "deck",
+          "location_description": "Deck underside, midspan section",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-003",
+          "defect_type": "crack",
+          "subtype": "alligator",
+          "severity": 7.5,
+          "confidence": 0.93,
+          "bbox": [
+            197,
+            183,
+            576,
+            508
+          ],
+          "frame_idx": 31,
+          "detection_method": "rt-detr",
+          "zone": "abutment_south",
+          "location_description": "East face of Pier 1, 2.3m from base",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-005",
+          "defect_type": "exposed_rebar",
+          "subtype": "full_exposure",
+          "severity": 6.6,
+          "confidence": 0.86,
+          "bbox": [
+            107,
+            165,
+            722,
+            561
+          ],
+          "frame_idx": 7,
+          "detection_method": "rt-detr",
+          "zone": "abutment_south",
+          "location_description": "Pier 2 column, west face at 4.1m height",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-008",
+          "defect_type": "exposed_rebar",
+          "subtype": "partial",
+          "severity": 7.6,
+          "confidence": 0.76,
+          "bbox": [
+            130,
+            255,
+            580,
+            443
+          ],
+          "frame_idx": 5,
+          "detection_method": "rt-detr",
+          "zone": "deck",
+          "location_description": "Pier 2 column, west face at 4.1m height",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-009",
+          "defect_type": "settlement",
+          "subtype": "differential",
+          "severity": 6.2,
+          "confidence": 0.92,
+          "bbox": [
+            126,
+            132,
+            727,
+            565
+          ],
+          "frame_idx": 7,
+          "detection_method": "yolov8",
+          "zone": "abutment_south",
+          "location_description": "South abutment wingwall, lower section",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-011",
+          "defect_type": "efflorescence",
+          "subtype": "white_deposit",
+          "severity": 6.4,
+          "confidence": 0.88,
+          "bbox": [
+            213,
+            239,
+            681,
+            443
+          ],
+          "frame_idx": 16,
+          "detection_method": "color_analysis",
+          "zone": "deck",
+          "location_description": "Pier 2 column, west face at 4.1m height",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-012",
+          "defect_type": "exposed_rebar",
+          "subtype": "partial",
+          "severity": 6.2,
+          "confidence": 0.96,
+          "bbox": [
+            362,
+            105,
+            777,
+            382
+          ],
+          "frame_idx": 0,
+          "detection_method": "color_analysis",
+          "zone": "abutment_north",
+          "location_description": "Deck surface, lane 2 near expansion joint",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-013",
+          "defect_type": "corrosion",
+          "subtype": "surface_rust",
+          "severity": 6.2,
+          "confidence": 0.76,
+          "bbox": [
+            141,
+            53,
+            726,
+            502
+          ],
+          "frame_idx": 23,
+          "detection_method": "rt-detr",
+          "zone": "deck",
+          "location_description": "Pier 2 column, west face at 4.1m height",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-014",
+          "defect_type": "exposed_rebar",
+          "subtype": "partial",
+          "severity": 7.4,
+          "confidence": 0.76,
+          "bbox": [
+            380,
+            271,
+            635,
+            523
+          ],
+          "frame_idx": 19,
+          "detection_method": "rt-detr",
+          "zone": "pier_1",
+          "location_description": "South abutment wingwall, lower section",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-016",
+          "defect_type": "corrosion",
+          "subtype": "staining",
+          "severity": 6.9,
+          "confidence": 0.82,
+          "bbox": [
+            149,
+            242,
+            719,
+            435
+          ],
+          "frame_idx": 9,
+          "detection_method": "rt-detr",
+          "zone": "bearing",
+          "location_description": "Deck surface, lane 2 near expansion joint",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-019",
+          "defect_type": "crack",
+          "subtype": "alligator",
+          "severity": 7.5,
+          "confidence": 0.98,
+          "bbox": [
+            338,
+            238,
+            795,
+            412
+          ],
+          "frame_idx": 25,
+          "detection_method": "yolov8",
+          "zone": "pier_2",
+          "location_description": "Pier 2 column, west face at 4.1m height",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-022",
+          "defect_type": "crack",
+          "subtype": "transverse",
+          "severity": 6.0,
+          "confidence": 0.97,
+          "bbox": [
+            86,
+            156,
+            592,
+            444
+          ],
+          "frame_idx": 18,
+          "detection_method": "rt-detr",
+          "zone": "abutment_south",
+          "location_description": "Deck surface, lane 2 near expansion joint",
+          "priority": "high"
+        },
+        {
+          "id": "DEF-023",
+          "defect_type": "settlement",
+          "subtype": "uniform",
+          "severity": 6.0,
+          "confidence": 0.78,
+          "bbox": [
+            197,
+            273,
+            553,
+            483
+          ],
+          "frame_idx": 20,
+          "detection_method": "color_analysis",
+          "zone": "pier_2",
+          "location_description": "Deck underside, midspan section",
+          "priority": "high"
+        }
+      ],
+      "medium_defects": [
+        {
+          "id": "DEF-006",
+          "defect_type": "efflorescence",
+          "subtype": "white_deposit",
+          "severity": 5.7,
+          "confidence": 0.75,
+          "bbox": [
+            163,
+            78,
+            485,
+            380
+          ],
+          "frame_idx": 30,
+          "detection_method": "rt-detr",
+          "zone": "bearing",
+          "location_description": "Deck underside, midspan section",
+          "priority": "medium"
+        },
+        {
+          "id": "DEF-010",
+          "defect_type": "settlement",
+          "subtype": "uniform",
+          "severity": 4.2,
+          "confidence": 0.73,
+          "bbox": [
+            393,
+            279,
+            547,
+            565
+          ],
+          "frame_idx": 26,
+          "detection_method": "yolov8",
+          "zone": "abutment_south",
+          "location_description": "Deck surface, lane 2 near expansion joint",
+          "priority": "medium"
+        }
+      ],
+      "low_defects": [
+        {
+          "id": "DEF-002",
+          "defect_type": "exposed_rebar",
+          "subtype": "full_exposure",
+          "severity": 3.9,
+          "confidence": 0.96,
+          "bbox": [
+            206,
+            202,
+            745,
+            553
+          ],
+          "frame_idx": 4,
+          "detection_method": "yolov8",
+          "zone": "pier_2",
+          "location_description": "Deck surface, lane 2 near expansion joint",
+          "priority": "low"
+        },
+        {
+          "id": "DEF-007",
+          "defect_type": "corrosion",
+          "subtype": "staining",
+          "severity": 3.8,
+          "confidence": 0.84,
+          "bbox": [
+            89,
+            188,
+            470,
+            533
+          ],
+          "frame_idx": 18,
+          "detection_method": "yolov8",
+          "zone": "pier_1",
+          "location_description": "Deck surface, lane 2 near expansion joint",
+          "priority": "low"
+        },
+        {
+          "id": "DEF-015",
+          "defect_type": "corrosion",
+          "subtype": "section_loss",
+          "severity": 3.8,
+          "confidence": 0.91,
+          "bbox": [
+            332,
+            97,
+            511,
+            417
+          ],
+          "frame_idx": 18,
+          "detection_method": "yolov8",
+          "zone": "pier_1",
+          "location_description": "East face of Pier 1, 2.3m from base",
+          "priority": "low"
+        },
+        {
+          "id": "DEF-020",
+          "defect_type": "spalling",
+          "subtype": "delamination",
+          "severity": 3.0,
+          "confidence": 0.93,
+          "bbox": [
+            174,
+            233,
+            713,
+            572
+          ],
+          "frame_idx": 1,
+          "detection_method": "yolov8",
+          "zone": "pier_2",
+          "location_description": "Pier 2 column, west face at 4.1m height",
+          "priority": "low"
+        },
+        {
+          "id": "DEF-021",
+          "defect_type": "exposed_rebar",
+          "subtype": "partial",
+          "severity": 3.9,
+          "confidence": 0.88,
+          "bbox": [
+            195,
+            55,
+            596,
+            551
+          ],
+          "frame_idx": 15,
+          "detection_method": "color_analysis",
+          "zone": "abutment_north",
+          "location_description": "North abutment bearing pad area",
+          "priority": "low"
+        }
+      ],
+      "by_type": {
+        "corrosion": {
+          "count": 6,
+          "avg_severity": 6.1
+        },
+        "exposed_rebar": {
+          "count": 6,
+          "avg_severity": 5.9
+        },
+        "crack": {
+          "count": 3,
+          "avg_severity": 7.0
+        },
+        "settlement": {
+          "count": 5,
+          "avg_severity": 6.8
+        },
+        "efflorescence": {
+          "count": 2,
+          "avg_severity": 6.1
+        },
+        "spalling": {
+          "count": 1,
+          "avg_severity": 3.0
+        }
+      }
+    },
+    "zone_analysis": {
+      "deck": {
+        "health": 52,
+        "defects": 8,
+        "status": "Poor"
+      },
+      "pier_1": {
+        "health": 61,
+        "defects": 5,
+        "status": "Fair"
+      },
+      "pier_2": {
+        "health": 68,
+        "defects": 3,
+        "status": "Fair"
+      },
+      "abutment_north": {
+        "health": 78,
+        "defects": 3,
+        "status": "Good"
+      },
+      "abutment_south": {
+        "health": 82,
+        "defects": 2,
+        "status": "Good"
+      },
+      "bearing": {
+        "health": 55,
+        "defects": 2,
+        "status": "Poor"
+      }
+    },
+    "point_cloud_stats": {
+      "total_points": 157432,
+      "labeled_points": 89621,
+      "defect_points": 12847,
+      "source": "COLMAP SfM + Depth Anything v2"
+    }
+  },
+  "agents": {
+    "inspector": {
+      "agent": "Inspector Agent",
+      "model": "AMD GAIA (Ryzen AI NPU)",
+      "classified_defects": [
+        {
+          "id": "DEF-001",
+          "type": "corrosion",
+          "subtype": "surface_rust",
+          "severity_score": 6.7,
+          "confidence": 0.96,
+          "zone": "deck",
+          "classification": "high",
+          "recommendation": "Schedule repair within 30 days. Monitor weekly."
+        },
+        {
+          "id": "DEF-002",
+          "type": "exposed_rebar",
+          "subtype": "full_exposure",
+          "severity_score": 3.9,
+          "confidence": 0.96,
+          "zone": "pier_2",
+          "classification": "low",
+          "recommendation": "Document and monitor during routine inspections."
+        },
+        {
+          "id": "DEF-003",
+          "type": "crack",
+          "subtype": "alligator",
+          "severity_score": 7.5,
+          "confidence": 0.93,
+          "zone": "abutment_south",
+          "classification": "high",
+          "recommendation": "Schedule repair within 30 days. Monitor weekly."
+        },
+        {
+          "id": "DEF-004",
+          "type": "settlement",
+          "subtype": "uniform",
+          "severity_score": 8.3,
+          "confidence": 0.95,
+          "zone": "abutment_south",
+          "classification": "critical",
+          "recommendation": "Immediate structural repair required. Close affected lane/area."
+        },
+        {
+          "id": "DEF-005",
+          "type": "exposed_rebar",
+          "subtype": "full_exposure",
+          "severity_score": 6.6,
+          "confidence": 0.86,
+          "zone": "abutment_south",
+          "classification": "high",
+          "recommendation": "Schedule repair within 30 days. Monitor weekly."
+        },
+        {
+          "id": "DEF-006",
+          "type": "efflorescence",
+          "subtype": "white_deposit",
+          "severity_score": 5.7,
+          "confidence": 0.75,
+          "zone": "bearing",
+          "classification": "medium",
+          "recommendation": "Include in next maintenance cycle (90 days)."
+        },
+        {
+          "id": "DEF-007",
+          "type": "corrosion",
+          "subtype": "staining",
+          "severity_score": 3.8,
+          "confidence": 0.84,
+          "zone": "pier_1",
+          "classification": "low",
+          "recommendation": "Document and monitor during routine inspections."
+        },
+        {
+          "id": "DEF-008",
+          "type": "exposed_rebar",
+          "subtype": "partial",
+          "severity_score": 7.6,
+          "confidence": 0.76,
+          "zone": "deck",
+          "classification": "high",
+          "recommendation": "Schedule repair within 30 days. Monitor weekly."
+        },
+        {
+          "id": "DEF-009",
+          "type": "settlement",
+          "subtype": "differential",
+          "severity_score": 6.2,
+          "confidence": 0.92,
+          "zone": "abutment_south",
+          "classification": "high",
+          "recommendation": "Schedule repair within 30 days. Monitor weekly."
+        },
+        {
+          "id": "DEF-010",
+          "type": "settlement",
+          "subtype": "uniform",
+          "severity_score": 4.2,
+          "confidence": 0.73,
+          "zone": "abutment_south",
+          "classification": "medium",
+          "recommendation": "Include in next maintenance cycle (90 days)."
+        }
+      ],
+      "summary": "Identified 23 defects: 3 critical, 13 high, 2 medium, 5 low severity."
+    },
+    "compliance": {
+      "agent": "Compliance Agent",
+      "model": "AMD GAIA + RAG (FAISS + ACI/ASCE/IBC)",
+      "overall_compliance": "Non-Compliant",
+      "total_violations": 16,
+      "violations": [
+        {
+          "code": "ACI 318-19 \u00a718.12.3",
+          "description": "Maximum allowable crack width exceeded (0.4mm limit for exposure class F2)",
+          "defect_id": "DEF-001",
+          "severity": "critical"
+        },
+        {
+          "code": "ASCE 7-22 \u00a72.3.1",
+          "description": "Structural member cross-section loss exceeds 10% due to corrosion",
+          "defect_id": "DEF-003",
+          "severity": "critical"
+        },
+        {
+          "code": "IBC 2024 \u00a71704.6",
+          "description": "Spalling depth exceeds cover thickness, exposing reinforcement",
+          "defect_id": "DEF-002",
+          "severity": "high"
+        },
+        {
+          "code": "ACI 318-19 \u00a720.6.1",
+          "description": "Concrete cover insufficient after spalling (min 50mm for bridge piers)",
+          "defect_id": "DEF-004",
+          "severity": "high"
+        },
+        {
+          "code": "ASCE 7-22 \u00a712.1.1",
+          "description": "Load path continuity compromised by deep crack in primary member",
+          "defect_id": "DEF-005",
+          "severity": "high"
+        }
+      ],
+      "compliant_elements": [
+        "railing",
+        "drainage",
+        "signage"
+      ]
+    },
+    "safety": {
+      "agent": "Safety Agent",
+      "model": "AMD GAIA (Risk Assessment)",
+      "risk_score": 100,
+      "risk_level": "High",
+      "risk_factors": [
+        {
+          "factor": "Critical structural defects",
+          "weight": 0.35,
+          "score": 85
+        },
+        {
+          "factor": "Load-bearing member compromise",
+          "weight": 0.25,
+          "score": 72
+        },
+        {
+          "factor": "Environmental exposure risk",
+          "weight": 0.15,
+          "score": 60
+        },
+        {
+          "factor": "Age-related deterioration",
+          "weight": 0.15,
+          "score": 55
+        },
+        {
+          "factor": "Maintenance history",
+          "weight": 0.1,
+          "score": 40
+        }
+      ],
+      "immediate_actions": [
+        "Close affected lane on bridge deck (DEF-001, DEF-002 area)",
+        "Install temporary shoring under Pier 1 pending repair",
+        "Schedule emergency concrete repair for exposed rebar locations"
+      ],
+      "monitoring_recommendations": [
+        "Install crack width gauges on all critical cracks",
+        "Monthly visual inspection of Pier 1 and deck underside",
+        "Deploy vibration sensors on bearing pads"
+      ]
+    },
+    "report": "# CityMind Structural Inspection Report\n\n**Structure:** Reinforced Concrete Bridge \u2014 Interstate 405, Los Angeles, CA\n**Inspection Date:** February 28, 2026\n**Inspector:** CityMind AI (v1.0) \u2014 AMD Ryzen AI NPU\n\n---\n\n## Executive Summary\n\nThis automated inspection identified **23 structural defects** across 6 zones. The overall Structural Health Index is **37.5/100 (Grade F: Critical)**.\n\n**3 critical defects** require immediate attention, including exposed rebar on Pier 1 and deep spalling on the deck underside. The bridge is **non-compliant** with ACI 318-19 crack width limits and ASCE 7-22 load path requirements.\n\n**Risk Score: 100/100** \u2014 immediate lane closure and emergency repair recommended.\n\n## Recommended Actions\n\n1. **Immediate (0-7 days):** Close affected lane, install temporary shoring\n2. **Short-term (7-30 days):** Emergency concrete repair, rebar treatment\n3. **Medium-term (30-90 days):** Full structural assessment, crack injection\n4. **Long-term (90+ days):** Comprehensive rehabilitation design\n\n---\n*Report generated by CityMind AI \u2014 Powered by AMD Ryzen AI*\n"
+  },
+  "performance": {
+    "layer1_ingestion_s": 1.23,
+    "layer2_perception_s": 4.56,
+    "layer3_reconstruction_s": 8.91,
+    "layer4_twin_s": 0.34,
+    "layer5_agents_s": 2.78,
+    "layer6_report_s": 0.85,
+    "total_pipeline_s": 18.67,
+    "npu_speedup": {
+      "perception_cpu_s": 4.56,
+      "perception_npu_s": 1.3,
+      "speedup": "3.5x"
+    },
+    "memory_peak_mb": 2847,
+    "gpu_utilization_percent": 78
+  },
+  "scan_history": [
+    {
+      "date": "2025-10-01",
+      "health_score": 52.7,
+      "defect_count": 7,
+      "critical_count": 0
+    },
+    {
+      "date": "2025-10-31",
+      "health_score": 50.4,
+      "defect_count": 10,
+      "critical_count": 0
+    },
+    {
+      "date": "2025-11-30",
+      "health_score": 46.8,
+      "defect_count": 16,
+      "critical_count": 0
+    },
+    {
+      "date": "2025-12-30",
+      "health_score": 44.1,
+      "defect_count": 17,
+      "critical_count": 1
+    },
+    {
+      "date": "2026-01-29",
+      "health_score": 40.9,
+      "defect_count": 20,
+      "critical_count": 2
+    },
+    {
+      "date": "2026-02-28",
+      "health_score": 38.2,
+      "defect_count": 24,
+      "critical_count": 4
+    }
+  ]
+}
