@@ -86,3 +86,5 @@ chroma_db/
 # Environment variables
 .env
 .env.local
+dist/
+.vercel

@@ -1,5 +1,7 @@
 # 🏗️ CityMind — AI-Powered Infrastructure Digital Twin
 
+**Live demo:** https://citymind-amd.vercel.app — _Demo: dashboard served with precomputed inspection data &amp; defect overlays (no live CV/NPU pipeline)._
+
 <p align="center">
   <img src="https://img.shields.io/badge/AMD-Ryzen_AI_Powered-ED1C24?style=for-the-badge&logo=amd" alt="AMD Ryzen AI"/>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python" alt="Python 3.10+"/>

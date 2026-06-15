@@ -1,0 +1,6 @@
+{
+  "framework": null,
+  "installCommand": "echo skip",
+  "buildCommand": "bash build_static.sh",
+  "outputDirectory": "dist"
+}

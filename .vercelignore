@@ -1,0 +1,14 @@
+dist
+citymind
+scripts
+tests
+training
+data
+models
+pitch
+docs
+*.py
+*.md
+output/demo_rich/frames_backup
+output/demo_rich/*.ply
+output/demo_rich/*.pdf
